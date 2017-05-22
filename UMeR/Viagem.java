@@ -12,4 +12,6 @@ public class Viagem
     private int custo;
     private int tempo;
     private int desvio;
+    
+    
 }
