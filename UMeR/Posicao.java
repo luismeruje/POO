@@ -21,6 +21,11 @@ public class Posicao
        this.y = 0;
    }
    
+   public Posicao(Posicao p){
+       this.x = p.getX();
+       this.y = p.getY();
+   }
+   
    public double getX(){
        return x;
    }
