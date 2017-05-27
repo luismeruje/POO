@@ -16,4 +16,13 @@ public class Utilizador
     private Posicao posicao;
     private List <Viagem> viagens;
     
+    public Utilizador(String email, String nome, String pass, String morada, String data_de_nascimento, Posicao posicao, List<Viagem> viagens){
+        this.email = email;
+        this.nome = nome;
+        this.password = pass;
+        this.morada = morada;
+        this.dataDeNascimento = data_de_nascimento;
+        this.posicao = new Posicao(posicao);
+        this.viagens = viagens; 
+    }
 }
