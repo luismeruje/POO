@@ -7,6 +7,7 @@
  */
 public class Viagem
 {
+    private String motorista;
     private int distancia;
     private int pontuacao;
     private int custo;
@@ -16,18 +17,20 @@ public class Viagem
      * Construtores
      */
     public Viagem(){
+        this.motorista = " ";
         this.distancia = 0;
         this.pontuacao = 0;
         this.custo = 0;
         this.tempo = 0;
         this.desvio = 0;
     }
-    public Viagem(int d, int p, int c, int t, int dv){
+    public Viagem(int d, int p, int c, int t, int dv, String mot){
         this.distancia = d;
         this.pontuacao = p;
         this.custo = c;
         this.tempo = t;
         this.desvio = dv;
+        this.motorista = mot;
     }
     public Viagem(Viagem v){
         this.distancia = v.getDist();
@@ -35,6 +38,7 @@ public class Viagem
         this.custo = v.getCusto();
         this.tempo = v.getTempo();
         this.desvio = v.getDesvio();
+        this.motorista = v.getMot();
     }
 
     /*
@@ -55,13 +59,16 @@ public class Viagem
     public int getDesvio(){
         return this.desvio;
     }
+    public String getMot(){
+        return this.motorista;
+    }
     
     /*
      * Overwrites:
      * Clone, toString, equals.
      */
     public Viagem clone(){
-        return new Viagem(distancia, pontuacao, custo, tempo, desvio);
+        return new Viagem(this);
     }
     
     public String toString(){
