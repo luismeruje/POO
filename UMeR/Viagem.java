@@ -18,6 +18,15 @@ public class Viagem
     private int custo;
     private int tempo;
     private int desvio;
+    
+    
+    
+    public static void setTotalViagens(long totalViagens){
+        Viagem.totalViagens = totalViagens;
+    }
+    
+    
+    
     /*
      * Construtores
      */

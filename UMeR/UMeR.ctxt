@@ -1,12 +1,14 @@
 #BlueJ class context
 comment0.params=
-comment0.target=boolean\ adicionaCliente()
-comment1.params=
-comment1.target=Utilizador\ getCliente()
+comment0.target=UMeR()
+comment1.params=email\ nome\ morada\ nascimento\ password\ x\ y
+comment1.target=boolean\ adicionaCliente(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.util.Date,\ java.lang.String,\ int,\ int)
 comment2.params=
-comment2.target=boolean\ adicionaMotorista()
+comment2.target=Utilizador\ getCliente()
 comment3.params=
-comment3.target=Utilizador\ getMotorista()
+comment3.target=boolean\ adicionaMotorista()
 comment4.params=
-comment4.target=boolean\ escreverFicheiro()
-numComments=5
+comment4.target=Utilizador\ getMotorista()
+comment5.params=
+comment5.target=boolean\ escreverFicheiro()
+numComments=6

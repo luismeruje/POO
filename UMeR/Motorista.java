@@ -12,5 +12,5 @@ public class Motorista extends Utilizador
     private int classificacao;
     private boolean disponivel;
     private int kms;
-    
+    //WARNING: só deixar pôr-se disponível se tiver algum carro adicionado.
 }
