@@ -14,4 +14,15 @@ public class Viatura
     private int precoKm;
     private Posicao posicao;
     private List <Viagem> historico;
+    
+    //Construtores
+    
+    //get's
+    
+    public void somaKms(int kms){}
+    
+    public void registaViagem(Viagem v){
+    }
+    
+    
 }

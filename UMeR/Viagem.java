@@ -7,7 +7,12 @@
  */
 public class Viagem
 {
+    private static long totalViagens = 0; //-> programa começa com nr total de viagens a zero
+    
+    
+    private long identificacao;
     private String motorista;
+    private String cliente;
     private int distancia;
     private int pontuacao;
     private int custo;
@@ -17,21 +22,24 @@ public class Viagem
      * Construtores
      */
     public Viagem(){
-        this.motorista = " ";
+        this.motorista = "";
+        this.cliente = "";
         this.distancia = 0;
         this.pontuacao = 0;
         this.custo = 0;
         this.tempo = 0;
         this.desvio = 0;
     }
-    public Viagem(int d, int p, int c, int t, int dv, String mot){
+    public Viagem(int d, int p, int c, int t, int dv, String mot, String cliente){
         this.distancia = d;
         this.pontuacao = p;
         this.custo = c;
         this.tempo = t;
         this.desvio = dv;
         this.motorista = mot;
+        this.cliente = cliente;
     }
+    
     public Viagem(Viagem v){
         this.distancia = v.getDist();
         this.pontuacao = v.getPont();
@@ -44,6 +52,10 @@ public class Viagem
     /*
      * gets e sets(?)
      */
+    public long getIdentificacao(){
+        return this.identificacao;
+    }
+     
     public int getDist(){
         return this.distancia;
     }
@@ -81,8 +93,7 @@ public class Viagem
        if(o == null || this.getClass() != o.getClass())
             return false;
        Viagem v = (Viagem) o;
-       if(this.distancia == v.getDist() && this.pontuacao == v.getPont() && this.custo == v.getCusto() && this.tempo == v.getTempo() && this.desvio == v.getDesvio()) return true;
-       
+       if(this.identificacao == v.getIdentificacao() ) return true;
        return false;
     }
 }

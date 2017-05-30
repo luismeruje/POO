@@ -73,4 +73,11 @@ public class Utilizador
         return this.viagens;
     }
     
+    
+    public void setPosicao(Posicao p){
+        posicao = p;
+    }
+    
+    
+    //Clone, equals, toString
 }

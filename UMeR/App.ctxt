@@ -1,2 +1,22 @@
 #BlueJ class context
-numComments=0
+comment0.params=
+comment0.target=int\ main()
+comment1.params=
+comment1.target=int\ loginCliente()
+comment2.params=
+comment2.target=int\ viagem()
+comment3.params=
+comment3.target=int\ fimViagem()
+comment4.params=
+comment4.target=int\ loginMotorista()
+comment5.params=
+comment5.target=int\ registoCliente()
+comment6.params=
+comment6.target=int\ registoMotorista()
+comment7.params=
+comment7.target=int\ areaCliente()
+comment8.params=
+comment8.target=int\ areaMotorista()
+comment9.params=
+comment9.target=int\ estatisticas()
+numComments=10
