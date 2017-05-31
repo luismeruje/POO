@@ -34,11 +34,31 @@ public class UMeR
         return !resultado;
     }
     
-    public Utilizador getCliente(){return null;}
+    public Utilizador getCliente(String email, String password){
+        Utilizador cliente = clientes.get(email);
+        if(cliente != null && !password.equals(cliente.getPassword()))
+            cliente = null; //Cliente é posto a NULL se a password estiver errada.
+        return cliente;
+    }
     
-    public boolean adicionaMotorista(){return false;}
+    public boolean adicionaMotorista(String email, String nome, String morada, Date nascimento, String password, int x, int y){
+        boolean resultado;
+        
+        Posicao p = new Posicao(x,y);
+        if(!(resultado = motoristas.containsKey(email))){
+            Utilizador motorista = new Motorista(email,nome,password,morada,nascimento,p);
+            motoristas.put(email,motorista);
+        }
+        
+        return !resultado;
+    }
     
-    public Utilizador getMotorista(){return null;}
+    public Utilizador getMotorista(String email, String password){
+        Utilizador motorista = motoristas.get(email);
+        if(motorista != null && !password.equals(motorista.getPassword()))
+            motorista = null; //Motorista é posto a NULL se a password estiver errada.
+        return motorista;
+    }
     
     public boolean escreverFicheiro(){return false;}
 }

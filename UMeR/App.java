@@ -38,8 +38,8 @@ public final class App
                     input.nextLine();
                     switch(opcao){
                     case 1:
-                        //loginUtilizador();
-                        //concluido = true;
+                        loginCliente();
+                        concluido = true;
                         break;
                     case 2:
                         //loginMotorista();
@@ -56,8 +56,8 @@ public final class App
                         input.nextLine();
                         break;
                     case 4:
-                        //registarMotorista();
-                        //concluido = true;
+                        registarMotorista();
+                        concluido = true;
                         break;
                     case 5:
                         //estatisticas();
@@ -81,8 +81,29 @@ public final class App
         return 0;
     }
     
-    public static int loginCliente(){
-        return 0;
+    public static void loginCliente(){
+        String email, password;
+        Utilizador cliente;
+        
+        System.out.println("======= Login - Cliente =======");
+        System.out.print("Email: ");
+        email = input.nextLine();
+        while(!email.contains("@")){
+            System.out.println("Por favor insira um email válido.");
+            System.out.print("Email: ");
+            email = input.nextLine();
+        }
+        
+        System.out.print("Password: ");
+        password = input.nextLine();
+        
+        cliente = dados.getCliente(email,password);
+        if(cliente != null){
+            areaCliente(cliente);
+        }
+        else{
+            System.out.println("Email e/ou password inválidos.");
+        }
     }
     
     public static int viagem(){return 0;}
@@ -150,9 +171,65 @@ public final class App
         return resultado;
     }
     
-    public static int registarMotorista(){return 0;}
+    public static boolean registarMotorista(){
+        String email,nome = new String(), password, morada, aux;
+        Date nascimento = null;
+        int x = 0,y = 0;
+        boolean concluido = false, resultado = false;
+        System.out.println("=======Preencha os campos abaixo=======");
+        
+        System.out.print("Email: ");
+        email = input.nextLine();
+        while(!email.contains("@")){
+            System.out.println("Por favor insira um email válido.");
+            System.out.print("Email: ");
+            email = input.nextLine();
+        }
+        
+        System.out.print("Nome:");
+        nome = input.nextLine();
+        while(nome.length() < 3){
+            System.out.println("Por favor escolha um nome com pelo menos 3 caracteres");
+            System.out.print("Nome: ");
+            nome = input.nextLine();
+        }
+        
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        ParsePosition posicao = new ParsePosition(0);
+        System.out.print("Data de nascimento(dd/MM/aaaa): ");
+        aux = input.nextLine();
+        nascimento = formato.parse(aux,posicao);
+        while(nascimento == null){
+            System.out.println("Data de nascimento inválida. Tenha em atenção o formato especificado.");
+            System.out.print("Data de nascimento(dd/MM/aaaa): ");
+            aux = input.nextLine();
+            nascimento = formato.parse(aux,posicao);
+        }
+        
+        System.out.print("Password:");
+        password = input.nextLine();
+        
+        System.out.print("Morada:");
+        morada = input.nextLine();
+        
+        while(!concluido){
+            try{
+                System.out.print("Introduza as suas coordenadas(x y): ");
+                x = input.nextInt();
+                y = input.nextInt();
+                concluido = true;
+            }
+            catch(InputMismatchException e){
+                System.out.println("Coordenadas inválidas.Tenha em atenção o formato especificado.");
+            }
+            input.nextLine();
+        }
+        resultado = dados.adicionaMotorista(email,nome,morada,nascimento,password,x,y);
+        return resultado;
     
-    public static int areaCliente(){return 0;}
+    }
+    
+    public static int areaCliente(Utilizador cliente){return 0;}
     
     public static int areaMotorista(){return 0;} 
     

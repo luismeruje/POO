@@ -1,2 +1,4 @@
 #BlueJ class context
-numComments=0
+comment0.params=email\ nome\ pass\ morada\ nascimento\ posicao
+comment0.target=Motorista(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.util.Date,\ Posicao)
+numComments=1
