@@ -8,6 +8,7 @@
 
 import java.util.Scanner;
 import java.util.InputMismatchException;
+import java.io.IOException;
 import java.util.Date;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -68,7 +69,7 @@ public final class App
                         break;
                     case 5:
                         //estatisticas();
-                        //concluido = true;
+                        concluido = true;
                         break;
                     case 6:
                         //dados.escreveFicheiro();
@@ -264,4 +265,13 @@ public final class App
     public static int areaMotorista(Utilizador motorista){return 0;} 
     
     public static int estatisticas(){return 0;}
+    
+    private static void clearConsole(){
+    	try{ 
+    		Runtime.getRuntime().exec("clear");
+    	}
+    	catch(IOException e){
+    		e.getMessage();
+    	}
+    }
 }
