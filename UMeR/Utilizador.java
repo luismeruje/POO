@@ -19,7 +19,8 @@ public class Utilizador
     private List <Viagem> viagens;
     
     //depois remover;
-    public Utilizador(){}
+    public Utilizador(){
+    }
     
     public Utilizador(String email, String nome, String pass, String morada, Date nascimento, Posicao posicao){
         this.email = email;
@@ -28,7 +29,8 @@ public class Utilizador
         this.morada = morada;
         this.nascimento = new Date(nascimento.getTime());
         this.posicao = new Posicao(posicao);
-        // List <Viagem> viagens =  -->talvez seja melhor passar a map.
+        this.viagens = Collections.emptyList();  
+        		//-->talvez seja melhor passar a map.
     }
     
     

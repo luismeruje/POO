@@ -15,7 +15,8 @@ public final class App
 {
     private static UMeR dados;
     private static Scanner input = new Scanner(System.in);
-    public static int main(){
+    //public static int main(){
+    public static void main(String[] args){
         int opcao = -1;
         boolean concluido, exit = false, resultado;
         
@@ -84,7 +85,7 @@ public final class App
                 }
             }
         }
-        return 0;
+        //return 0
     }
     
     public static void loginCliente(){

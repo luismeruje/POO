@@ -1,6 +1,6 @@
 #BlueJ class context
-comment0.params=
-comment0.target=int\ main()
+comment0.params=args
+comment0.target=int\ main(java.lang.String[])
 comment1.params=
 comment1.target=void\ loginCliente()
 comment2.params=
