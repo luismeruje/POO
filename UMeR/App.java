@@ -42,8 +42,8 @@ public final class App
                         concluido = true;
                         break;
                     case 2:
-                        //loginMotorista();
-                        //concluido = true;
+                        loginMotorista();
+                        concluido = true;
                         break;
                     case 3:
                         resultado = registarCliente();
@@ -56,8 +56,14 @@ public final class App
                         input.nextLine();
                         break;
                     case 4:
-                        registarMotorista();
+                        resultado = registarMotorista();
                         concluido = true;
+                        if(resultado)
+                            System.out.println("Motorista registado com sucesso.");
+                        else
+                            System.out.println("ERRO: O email fornecido já se econtra registado.");
+                        System.out.println("Pressione ENTER para continuar ....");
+                        input.nextLine();
                         break;
                     case 5:
                         //estatisticas();
@@ -110,7 +116,30 @@ public final class App
     
     public static int fimViagem(){return 0;}
     
-    public static int loginMotorista(){return 0;}
+    public static void loginMotorista(){
+        String email, password;
+        Utilizador motorista;
+        
+        System.out.println("======= Login - Motorista =======");
+        System.out.print("Email: ");
+        email = input.nextLine();
+        while(!email.contains("@")){
+            System.out.println("Por favor insira um email válido.");
+            System.out.print("Email: ");
+            email = input.nextLine();
+        }
+        
+        System.out.print("Password: ");
+        password = input.nextLine();
+        
+        motorista = dados.getMotorista(email,password);
+        if(motorista != null){
+            areaMotorista(motorista);
+        }
+        else{
+            System.out.println("Email e/ou password inválidos.");
+        }
+    }
     
     //false->se email já existe;
     //true->sucesso 
@@ -231,7 +260,7 @@ public final class App
     
     public static int areaCliente(Utilizador cliente){return 0;}
     
-    public static int areaMotorista(){return 0;} 
+    public static int areaMotorista(Utilizador motorista){return 0;} 
     
     public static int estatisticas(){return 0;}
 }
