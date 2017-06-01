@@ -162,7 +162,7 @@ public final class App
             email = input.nextLine();
         }
         
-        System.out.print("Nome:");
+        System.out.print("Nome: ");
         nome = input.nextLine();
         while(nome.length() < 3){
             System.out.println("Por favor escolha um nome com pelo menos 3 caracteres");
@@ -182,10 +182,10 @@ public final class App
             nascimento = formato.parse(aux,posicao);
         }
         
-        System.out.print("Password:");
+        System.out.print("Password: ");
         password = input.nextLine();
         
-        System.out.print("Morada:");
+        System.out.print("Morada: ");
         morada = input.nextLine();
         
         while(!concluido){
@@ -219,7 +219,7 @@ public final class App
             email = input.nextLine();
         }
         
-        System.out.print("Nome:");
+        System.out.print("Nome: ");
         nome = input.nextLine();
         while(nome.length() < 3){
             System.out.println("Por favor escolha um nome com pelo menos 3 caracteres");
@@ -239,10 +239,10 @@ public final class App
             nascimento = formato.parse(aux,posicao);
         }
         
-        System.out.print("Password:");
+        System.out.print("Password: ");
         password = input.nextLine();
         
-        System.out.print("Morada:");
+        System.out.print("Morada: ");
         morada = input.nextLine();
         
         while(!concluido){
