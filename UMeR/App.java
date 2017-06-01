@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -32,7 +33,7 @@ public final class App
         
         //TODO: dados.loadFicheiro(); -> tem que fazer set da variável global de viagens
         dados = new UMeR(); 
-        carregarDados();
+        //carregarDados();
         
         while(!exit){
             limparConsola();
@@ -84,7 +85,7 @@ public final class App
                             break;
                         case 6:
                             //dados.escreveFicheiro();
-                        	salvarDados();
+          //              	salvarDados();
                             concluido = true;
                             exit = true;
                             break;
@@ -376,36 +377,36 @@ public final class App
     
     public static int estatisticas(){return 0;}
     
-    private static void salvarDados(){
-    	java.net.URL url = App.class.getResource("Data.txt");
-    	File f = new File(url.getFile());
-    	Path path = Paths.get(f.getAbsolutePath());
-    	
-    	try{
-    		//TODO :: Alterar para realmente escrever os dados.
-    		Files.write(path, dados.toString(),StandardOpenOption.TRUNCATE_EXISTING, StandardCharsets.UTF_8);
-    	}
-    	catch(IOException e){
-    		System.out.println("Falha na leitura");
-    	}
-    	
-    	
-    }
-    
-    private static UMeR carregarDados(){
-    	java.net.URL url = App.class.getResource("Data.txt");
-    	File f = new File(url.getFile());
-    	Path path = Paths.get(f.getAbsolutePath());
-    	
-    	try{
-    		//TODO :: Alterar para realmente carregar os dados.
-    		Files.lines(path).forEach(s->System.out.println(s));
-    	}
-    	catch(IOException e){
-    		System.out.println("Falha na leitura");
-    	}
-    	return null;
-    }
+//    private static void salvarDados(){
+//    	java.net.URL url = App.class.getResource("Data.txt");
+//    	File f = new File(url.getFile());
+//    	Path path = Paths.get(f.getAbsolutePath());
+//    	
+//    	try{
+//    		//TODO :: Alterar para realmente escrever os dados.
+//    		Files.write(path, dados.toString(),StandardOpenOption.TRUNCATE_EXISTING, StandardCharsets.UTF_8);
+//    	}
+//    	catch(IOException e){
+//    		System.out.println("Falha na leitura");
+//    	}
+//    	
+//    	
+//    }
+//    
+//    private static UMeR carregarDados(){
+//    	java.net.URL url = App.class.getResource("Data.txt");
+//    	File f = new File(url.getFile());
+//    	Path path = Paths.get(f.getAbsolutePath());
+//    	
+//    	try{
+//    		//TODO :: Alterar para realmente carregar os dados.
+//    		Files.lines(path).forEach(s->System.out.println(s));
+//    	}
+//    	catch(IOException e){
+//    		System.out.println("Falha na leitura");
+//    	}
+//    	return null;
+//    }
     
     private static void limparConsola(){
         try{ 

@@ -86,6 +86,9 @@ public class Utilizador
         posicao = p;
     }
     
+    public void registarViagem(Viagem v){
+    	this.viagens.add(v.clone());
+    }
     
     //Clone, equals, toString
 }

@@ -47,6 +47,7 @@ public class Viagem
         this.desvio = dv;
         this.motorista = mot;
         this.cliente = cliente;
+        Viagem.totalViagens ++;
     }
     
     public Viagem(Viagem v){
@@ -56,10 +57,11 @@ public class Viagem
         this.tempo = v.getTempo();
         this.desvio = v.getDesvio();
         this.motorista = v.getMot();
+        Viagem.totalViagens ++;
     }
 
     /*
-     * gets e sets(?)
+     * gets e sets
      */
     public long getIdentificacao(){
         return this.identificacao;
@@ -82,6 +84,16 @@ public class Viagem
     }
     public String getMot(){
         return this.motorista;
+    }
+    public String getCliente(){
+    	return this.cliente;
+    }
+    public long getTotalViagens(){
+    	return Viagem.totalViagens;
+    }
+    
+    public void setPont(int pontos){
+    	this.pontuacao = pontos;
     }
     
     /*

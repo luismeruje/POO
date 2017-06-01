@@ -42,6 +42,9 @@ public class Motorista extends Utilizador
     public boolean getDisponivel(){
         return disponivel;
     }
+    
+    public void setViatura(Viatura v){
+    }
     //TODO: kms deve incluir também deslocações do taxi até ao cliente?
     //TODO: clientes pagam a deslocação do táxi até eles?
     public int getKms(){

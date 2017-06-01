@@ -41,14 +41,51 @@ public class Viatura
         this.historico = new ArrayList<Viagem>();
     }
     
-    public int getCodigo(){
-        return codigo;
+    public Viatura(Viatura v){
+    	this.codigo = v.getCodigo();
+        this.kms = v.getKms();
+        this.vMedia = v.getKms();
+        this.fiabilidade = v.getFiabilidade();
+        this.precoKm = v.getPrecoKm();
+        this.posicao = v.getPos();
+        this.historico = v.getHistorico();
+    }
+    /*
+     * Gets e Sets
+     */
+    public int getCodigo(){return this.codigo;}
+    public int getKms(){return this.kms;}
+    public int getVMedia(){return this.vMedia;}
+    public int getFiabilidade(){return this.fiabilidade;}
+    public int getPrecoKm(){return this.precoKm;}
+    public Posicao getPos(){return new Posicao(this.posicao);}
+    public List<Viagem> getHistorico(){return new ArrayList<Viagem>(this.historico);}
+    public void setVMedia(int vm){
+    	this.vMedia = vm;
+    }
+    public void setFiabilidade(int f){
+    	this.fiabilidade = f;
+    }
+    public void setPos(Posicao p){
+    	this.posicao.move(p.getX(), p.getY());
     }
     
-    public void somaKms(int kms){}
+    
+    
+    /*
+     * Metodos da classe
+     */
+    public void somaKms(int kms){
+    	this.kms += kms;
+    }
     
     public void registaViagem(Viagem v){
+    	this.historico.add(v.clone());
+    	somaKms(v.getDist());
     }
     
+    /*
+     * Overwrites
+     */
     
 }
