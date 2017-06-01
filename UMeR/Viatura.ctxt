@@ -1,6 +1,12 @@
 #BlueJ class context
-comment0.params=kms
-comment0.target=void\ somaKms(int)
-comment1.params=v
-comment1.target=void\ registaViagem(Viagem)
-numComments=2
+comment0.params=
+comment0.target=Viatura()
+comment1.params=vMedia\ fiabilidade\ precoKm\ posicao
+comment1.target=Viatura(int,\ int,\ int,\ Posicao)
+comment2.params=
+comment2.target=int\ getCodigo()
+comment3.params=kms
+comment3.target=void\ somaKms(int)
+comment4.params=v
+comment4.target=void\ registaViagem(Viagem)
+numComments=5

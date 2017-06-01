@@ -1,4 +1,16 @@
 #BlueJ class context
 comment0.params=email\ nome\ pass\ morada\ nascimento\ posicao
 comment0.target=Motorista(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.String,\ java.util.Date,\ Posicao)
-numComments=1
+comment1.params=
+comment1.target=Viatura\ getViatura()
+comment2.params=
+comment2.target=int\ getPontuacaoHorario()
+comment3.params=
+comment3.target=int\ getClassificacao()
+comment4.params=
+comment4.target=boolean\ getDisponivel()
+comment5.params=
+comment5.target=int\ getKms()
+comment6.params=
+comment6.target=int\ getNrViagensRealizadas()
+numComments=7

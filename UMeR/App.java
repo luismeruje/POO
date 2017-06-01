@@ -16,7 +16,7 @@ public final class App
 {
     private static UMeR dados;
     private static Scanner input = new Scanner(System.in);
-    //public static int main(){
+    
     public static void main(String[] args){
         int opcao = -1;
         boolean concluido, exit = false, resultado;
@@ -25,8 +25,9 @@ public final class App
         dados = new UMeR();
         
         while(!exit){
-             //TODO:criar método private para limpar o ecrã e chamar aqui
+            limparConsola();
             concluido = false;
+            System.out.println("======= Menu =======");
             System.out.println("1 - Login Utilizador\n"
                               +"2 - Login Motorista\n"
                               +"3 - Registar Utilizador\n"
@@ -39,49 +40,50 @@ public final class App
                     opcao = input.nextInt();
                     input.nextLine();
                     switch(opcao){
-                    case 1:
-                        loginCliente();
-                        concluido = true;
-                        break;
-                    case 2:
-                        loginMotorista();
-                        concluido = true;
-                        break;
-                    case 3:
-                        resultado = registarCliente();
-                        concluido = true;
-                        if(resultado)
-                            System.out.println("Cliente registado com sucesso.");
-                        else
-                            System.out.println("ERRO: O email fornecido já se econtra registado.");
-                        System.out.println("Pressione ENTER para continuar ....");
-                        input.nextLine();
-                        break;
-                    case 4:
-                        resultado = registarMotorista();
-                        concluido = true;
-                        if(resultado)
-                            System.out.println("Motorista registado com sucesso.");
-                        else
-                            System.out.println("ERRO: O email fornecido já se econtra registado.");
-                        System.out.println("Pressione ENTER para continuar ....");
-                        input.nextLine();
-                        break;
-                    case 5:
-                        //estatisticas();
-                        concluido = true;
-                        break;
-                    case 6:
-                        //dados.escreveFicheiro();
-                        concluido = true;
-                        exit = true;
-                        break;
-                    default:
-                        System.out.println("Por favor escolha um número entre 1 e 6.");
-                        break;
+                        case 1:
+                            loginCliente();
+                            concluido = true;
+                            break;
+                        case 2:
+                            loginMotorista();
+                            concluido = true;
+                            break;
+                        case 3:
+                            resultado = registarCliente();
+                            concluido = true;
+                            if(resultado)
+                                System.out.println("Cliente registado com sucesso.");
+                            else
+                                System.out.println("ERRO: O email fornecido já se econtra registado.");
+                            System.out.println("Pressione ENTER para continuar ....");
+                            input.nextLine();
+                            break;
+                        case 4:
+                            resultado = registarMotorista();
+                            concluido = true;
+                            if(resultado)
+                                System.out.println("Motorista registado com sucesso.");
+                            else
+                                System.out.println("ERRO: O email fornecido já se econtra registado.");
+                            System.out.println("Pressione ENTER para continuar ....");
+                            input.nextLine();
+                            break;
+                        case 5:
+                            //estatisticas();
+                            concluido = true;
+                            break;
+                        case 6:
+                            //dados.escreveFicheiro();
+                            concluido = true;
+                            exit = true;
+                            break;
+                        default:
+                            System.out.println("Por favor escolha um número entre 1 e 6.");
+                            break;
                     }
                 }
                 catch(InputMismatchException e){
+                    input.nextLine();
                     System.out.println("Por favor escolha um número entre 1 e 6.");
                 }
             }
@@ -120,7 +122,7 @@ public final class App
     
     public static void loginMotorista(){
         String email, password;
-        Utilizador motorista;
+        Motorista motorista;
         
         System.out.println("======= Login - Motorista =======");
         System.out.print("Email: ");
@@ -260,18 +262,115 @@ public final class App
     
     }
     
-    public static int areaCliente(Utilizador cliente){return 0;}
+    public static void areaCliente(Utilizador cliente){
+        int opcao;
+        boolean concluido, exit = false;
+        while(!exit){
+            System.out.println("======== Área de Cliente =======");
+            System.out.println("1 - Requisitar viagem\n"
+                              +"2 - Histórico de viagens\n"
+                              +"3 - Terminar sessão");
+            concluido = false;
+            while(!concluido){
+                try{
+                   opcao = input.nextInt();
+                   input.nextLine();
+                   switch(opcao){
+                       case 1:
+                            requisitarViagem(cliente);
+                            concluido = true;
+                            break;
+                       case 2:
+                            historicoViagens(cliente);
+                            concluido = true;
+                            break;
+                       case 3:
+                            concluido = true;
+                            exit = true;
+                            break;
+                       default:
+                            System.out.println("Por favor escolha um número entre 1 e 2.");
+                            break;
+                   }
+                }
+                catch(InputMismatchException e){
+                   System.out.println("Por favor escolha um número entre 1 e 2."); 
+                }
+            }
+        }
+    }
     
-    public static int areaMotorista(Utilizador motorista){return 0;} 
+    //True-> sucesso; False -> insucesso
+    public static boolean requisitarViagem(Utilizador cliente){
+        return false;
+    }
+    
+    public static void historicoViagens(Utilizador cliente){
+        
+    }
+    //TODO: implementar com StringBuilder
+    public static void areaMotorista(Motorista motorista){
+        int opcao;
+        boolean concluido, exit = false;
+        while(!exit){
+            System.out.println("================== Área de Motorista =================");
+            System.out.println("####### Informações #######");
+            System.out.printf("Código do veiculo em uso: %d\nKms realizados: %d\nPontuação cliente: %d\nPontuação cumprimento horário: %d\nViagens realizadas: %d\nDisponivel: %s\n"
+                             ,motorista.getViatura().getCodigo(),motorista.getKms(),motorista.getClassificacao(),motorista.getPontuacaoHorario(),motorista.getNrViagensRealizadas(),motorista.getDisponivel()?"Sim":"Não");
+            System.out.println("####### Menu #######");
+            System.out.println("1 - Adicionar veiculo\n"
+                              +"2 - Selecionar veiculo\n"
+                              +"3 - Listar veiculos\n"
+                              +"4 - Histórico de viagens\n"
+                              +"5 - Alterar disponibilidade\n"
+                              +"6 - Terminar sessão");
+            concluido = false;
+            while(!concluido){
+                System.out.print("Indique o número da operação desejada: ");
+                try{
+                   opcao = input.nextInt();
+                   input.nextLine();
+                   switch(opcao){
+                       case 1:
+                            //concluido = true;
+                            break;
+                       case 2:
+                            //concluido = true;
+                            break;
+                       case 3:
+                            //concluido = true;
+                            break;
+                       case 4:
+                            //concluido = true;
+                            break;
+                       case 5:
+                            //concluido = true;
+                            break;
+                       case 6:
+                            concluido = true;
+                            exit = true;
+                            break;
+                       default:
+                            System.out.println("Por favor escolha um número entre 1 e 2.");
+                            break;
+                   }
+                }
+                catch(InputMismatchException e){
+                   System.out.println("Por favor escolha um número entre 1 e 2."); 
+                   input.nextLine();
+                }
+            }
+        }
+    } 
     
     public static int estatisticas(){return 0;}
     
-    private static void clearConsole(){
-    	try{ 
-    		Runtime.getRuntime().exec("clear");
-    	}
-    	catch(IOException e){
-    		e.getMessage();
-    	}
+    private static void limparConsola(){
+        try{ 
+            Runtime.getRuntime().exec("clear");
+        }
+        catch(IOException e){
+            e.getMessage();
+        }
     }
 }
