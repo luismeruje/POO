@@ -15,9 +15,9 @@ public class Viagem
     private String cliente;
     private double distancia;
     private int pontuacao;
-    private int custo;
-    private int tempo;
-    private int desvio;
+    private double custo;
+    private double tempo;
+    private double desvio;
     
     
     
@@ -39,7 +39,7 @@ public class Viagem
         this.tempo = 0;
         this.desvio = 0;
     }
-    public Viagem(double d, int p, int c, int t, int dv, String mot, String cliente){
+    public Viagem(double d, int p, double c, double t, double dv, String mot, String cliente){
         this.distancia = d;
         this.pontuacao = p;
         this.custo = c;
@@ -75,13 +75,13 @@ public class Viagem
     public int getPont(){
         return this.pontuacao;
     }
-    public int getCusto(){
+    public double getCusto(){
         return this.custo;
     }
-    public int getTempo(){
+    public double getTempo(){
         return this.tempo;
     }
-    public int getDesvio(){
+    public double getDesvio(){
         return this.desvio;
     }
     public String getMot(){

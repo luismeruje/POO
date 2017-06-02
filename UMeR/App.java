@@ -321,8 +321,8 @@ public final class App
         boolean concluido,done = false, exit = false;
         Viatura req  = new Viatura();
         Posicao end;
-        double dist;
-        int preco, desvio, tempo, pont = 101;
+        double dist, tempo, preco, desvio;
+        int pont = 101;
     	while(!exit){
             System.out.println("================== Requisitar Viagem =================");
             System.out.println("####### Menu #######");
@@ -347,15 +347,15 @@ public final class App
                     	    req.getPos().move(end.getX(),end.getY());
                     	    req.getMotorista().getPosicao().move(end.getX(),end.getY());
 
-                    	    preco = (int) (  dist * req.getPrecoKm()  );
+                    	    preco = (  dist * req.getPrecoKm()  );
                     	    desvio = 0;
-                    	    tempo = (int) (  (dist*100)/req.getVMedia() );
+                    	    tempo = (  (dist*100)/req.getVMedia() );
                     	    while(pont<0 || pont >100){
                     	    	System.out.println("Classifique a sua viagem de 0 a 100:");
                     	    	pont = input.nextInt();
                     	    }
-                    	    cliente.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
-                    	    req.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
+                    	    cliente.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
+                    	    req.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
                     	    
                     	    done = true;
                     	    concluido = true;
@@ -371,15 +371,15 @@ public final class App
                     	    req.getPos().move(end.getX(),end.getY());
                     	    req.getMotorista().getPosicao().move(end.getX(),end.getY());
                     	    
-                    	    preco = (int) (  dist * req.getPrecoKm()  );
+                    	    preco = (  dist * req.getPrecoKm()  );
                     	    desvio = 0;
-                    	    tempo = (int) (  (dist*100)/req.getVMedia() );
+                    	    tempo = (  (dist*100)/req.getVMedia() );
                     	    while(pont<0 || pont >100){
                     	    	System.out.println("Classifique a sua viagem de 0 a 100:");
                     	    	pont = input.nextInt();
                     	    }
-                    	    cliente.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
-                    	    req.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
+                    	    cliente.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
+                    	    req.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
                     	    done = true;
                     	    System.out.println("Pressione ENTER para continuar");
                     	    input.nextLine();
