@@ -7,9 +7,10 @@
  */
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
 public class Viatura
 {
-    private static int totalViaturas;
+    private static int totalViaturas = 0;
     
     private int codigo;
     private int kms;
@@ -84,8 +85,42 @@ public class Viatura
     	somaKms(v.getDist());
     }
     
+    public double proximidade(Posicao p){
+    	return p.distancia(this.posicao);
+    }
+    
     /*
      * Overwrites
      */
     
+    public Viatura clone(){
+    	return new Viatura(this);
+    }
+    
+    public String toString(){
+    	String s = new String("====Viatura====\nCodigo:" + this.codigo
+    						  + "\nTotal de quilómetros da viatura:" + this.kms
+    						  + "\nPreço por quilómetro:" + this.precoKm
+    						  + "\nPosição:" +  this.posicao.toString()
+    						  + "\nFiabilidade" + this.fiabilidade + "\n");
+    	return s;
+    }
+    
+    public boolean equals(Object o){
+    	if(o == this) return true;
+    	if( o == null || o.getClass() != this.getClass()) return false;
+    	Viatura v = (Viatura) o;
+    	if(this.historico.size() != v.getHistorico().size()) return false;
+    	Iterator<Viagem> it = v.getHistorico().iterator();
+    	while(it.hasNext()){
+    		if(!this.historico.contains(it.next())) return false;
+    	}
+    	return (this.codigo == v.getCodigo() &&
+    			this.fiabilidade == v.getFiabilidade() &&
+    			this.kms == v.getKms() &&
+    			this.precoKm == v.getPrecoKm() &&
+    			this.vMedia == v.getVMedia() &&
+    			this.posicao.equals(v.getPos())
+    			);
+    }
 }

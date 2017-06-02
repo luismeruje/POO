@@ -6,6 +6,7 @@
  * @version (número de versão ou data)
  */
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 public class Utilizador
@@ -29,7 +30,7 @@ public class Utilizador
         this.morada = morada;
         this.nascimento = new Date(nascimento.getTime());
         this.posicao = new Posicao(posicao);
-        this.viagens = Collections.emptyList();  
+        this.viagens = new ArrayList<Viagem>();  
         		//-->talvez seja melhor passar a map.
     }
     

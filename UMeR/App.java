@@ -11,6 +11,7 @@ import java.util.Scanner;
 import javax.print.DocFlavor.URL;
 
 import java.util.InputMismatchException;
+import java.util.Random;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -301,12 +302,12 @@ public final class App
                             exit = true;
                             break;
                        default:
-                            System.out.println("Por favor escolha um número entre 1 e 2.");
+                            System.out.println("Por favor escolha um número entre 1 e 3.");
                             break;
                    }
                 }
                 catch(InputMismatchException e){
-                   System.out.println("Por favor escolha um número entre 1 e 2."); 
+                   System.out.println("Por favor escolha um número entre 1 e 3."); 
                 }
             }
         }
@@ -314,7 +315,52 @@ public final class App
     
     //True-> sucesso; False -> insucesso
     public static boolean requisitarViagem(Utilizador cliente){
-        return false;
+    	int opcao;
+        boolean concluido,done = false, exit = false;
+        
+    	while(!exit){
+            System.out.println("================== Requisitar Viagem =================");
+            System.out.println("####### Menu #######");
+            System.out.println("1 - Requisitar Taxi mais próximo\n"
+                              +"2 - Requisitar Taxi especifico\n"
+                              +"3 - Reservar Taxi\n"
+                              +"4 - Voltar\n");
+            concluido = false;
+            while(!concluido){
+                System.out.print("Indique o número da operação desejada: ");
+                try{
+                   opcao = input.nextInt();
+                   input.nextLine();
+                   switch(opcao){
+                       case 1:
+                    	    System.out.println(dados.getViaturaMaisProx(cliente.getPosicao()).toString());
+                    	    
+                    	    concluido = true;
+                            break;
+                       case 2:
+                    	    
+                    	    System.out.println("Pressione ENTER para continuar");
+                    	    input.nextLine();
+                    	    concluido = true;
+                            break;
+                       case 3:
+                            concluido = true;
+                            break;
+                       case 4:
+                            concluido = true;
+                            exit = true;
+                            break;
+                       default:
+                            System.out.println("Por favor escolha um número entre 1 e 4.");
+                            break;
+                   }
+                   }catch(InputMismatchException e){
+                	   System.out.println("Por favor escolha um número entre 1 e 4.");
+                   }
+    	
+            }
+    	}
+        return done;
     }
     
     public static void historicoViagens(Utilizador cliente){
@@ -323,12 +369,15 @@ public final class App
     //TODO: implementar com StringBuilder
     public static void areaMotorista(Motorista motorista){
         int opcao;
-        boolean concluido, exit = false;
+        boolean concluido,selecionado = false, exit = false;
+        Viatura v = new Viatura();
         while(!exit){
             System.out.println("================== Área de Motorista =================");
             System.out.println("####### Informações #######");
-            System.out.printf("Código do veiculo em uso: %d\nKms realizados: %d\nPontuação cliente: %d\nPontuação cumprimento horário: %d\nViagens realizadas: %d\nDisponivel: %s\n"
-                             ,motorista.getViatura().getCodigo(),motorista.getKms(),motorista.getClassificacao(),motorista.getPontuacaoHorario(),motorista.getNrViagensRealizadas(),motorista.getDisponivel()?"Sim":"Não");
+            System.out.printf("====Motorista====\nQuilometros realizados pelo motorista: %d\nPontuação cliente: %d\nPontuação cumprimento horário: %d\nViagens realizadas: %d\nDisponivel: %s\n"
+                             ,motorista.getKms(),motorista.getClassificacao(),motorista.getPontuacaoHorario()
+                             ,motorista.getNrViagensRealizadas(),motorista.getDisponivel()?"Sim":"Não");
+        	if(selecionado){ System.out.printf(v.toString()); }
             System.out.println("####### Menu #######");
             System.out.println("1 - Adicionar veiculo\n"
                               +"2 - Selecionar veiculo\n"
@@ -344,31 +393,66 @@ public final class App
                    input.nextLine();
                    switch(opcao){
                        case 1:
-                            //concluido = true;
+                    	    System.out.println("Introduza especificações do veiculo:\n");
+                    	    System.out.println("Velocidade Média:");
+                    	    int vm = input.nextInt();
+                    	    Random r = new Random();
+                    	    int f = r.nextInt(101);
+                    	    System.out.println("Preço por quilometro:");
+                    	    int pkm = input.nextInt();
+                    	    System.out.println("Posicao x y");
+                    	    Posicao p = new Posicao(input.nextInt(), input.nextInt());
+                    	    Viatura novo = new Viatura(vm,f,pkm,p);
+                    	    motorista.setViatura(novo);
+                    	    dados.addViatura(novo);
+                            concluido = true;
                             break;
                        case 2:
-                            //concluido = true;
+                    	    for(Viatura car: motorista.getViaturas()){
+                    	    	System.out.println(car.toString()); 
+                    	    }
+                    	    System.out.println("Escreva o codigo da viatura desejada:");
+                    	    try{
+                    	    	v = motorista.getViatura(input.nextInt());
+                    	    	selecionado = true;
+                    	    	System.out.println("Selecionou:\n" + v.toString());
+                    	    	
+                    	    }catch(ViaturaNaoDisponivelException e){
+                    	    	System.out.println(e.getMessage());
+                    	    }
+                    	    System.out.println("Pressione ENTER para continuar");
+                    	    input.nextLine();
+                    	    concluido = true;
                             break;
                        case 3:
-                            //concluido = true;
+                    	   	for(Viatura car: motorista.getViaturas()){
+                   	    		System.out.println(car.toString()); 
+                   	    	}
+                            concluido = true;
                             break;
                        case 4:
-                            //concluido = true;
+                    	   	for(Viagem trip: motorista.getViagens()){
+                    		    System.out.println(trip.toString());
+                    	   	}
+                    	   	System.out.println("Pressione ENTER para continuar");
+                    	    input.nextLine();
+                            concluido = true;
                             break;
                        case 5:
-                            //concluido = true;
+                    	    motorista.setDisponibilidade(!motorista.getDisponivel());
+                            concluido = true;
                             break;
                        case 6:
                             concluido = true;
                             exit = true;
                             break;
                        default:
-                            System.out.println("Por favor escolha um número entre 1 e 2.");
+                            System.out.println("Por favor escolha um número entre 1 e 6.");
                             break;
                    }
                 }
                 catch(InputMismatchException e){
-                   System.out.println("Por favor escolha um número entre 1 e 2."); 
+                   System.out.println("Por favor escolha um número entre 1 e 6."); 
                    input.nextLine();
                 }
             }

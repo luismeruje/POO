@@ -8,16 +8,17 @@
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Date;
 public class UMeR
 {
     //TODO: mudar tipo dos valores do map de motoristas para Motorista?
-    private Map <String,Viatura> viaturas;
+    private Map <Integer,Viatura> viaturas;
     private Map <String,Utilizador> clientes;
     private Map <String,Motorista> motoristas;
     
     public UMeR(){
-        viaturas = new HashMap<String,Viatura>();
+        viaturas = new HashMap<Integer,Viatura>();
         clientes = new HashMap<String,Utilizador>();
         motoristas = new HashMap<String,Motorista>();
     }
@@ -62,6 +63,28 @@ public class UMeR
         if(motorista != null && !password.equals(motorista.getPassword()))
             motorista = null; //Motorista é posto a NULL se a password estiver errada.
         return motorista;
+    }
+    
+    public Viatura addViatura(Viatura v){
+    	return this.viaturas.put(v.getCodigo(), v);
+    }
+    public Viatura getViatura(int codigo){
+    	Integer cod = new Integer(codigo);
+    	return this.viaturas.get(cod);
+    }
+    public Viatura getViaturaMaisProx(Posicao p){
+    	Iterator<Viatura> it = this.viaturas.values().iterator();
+    	Viatura v = new Viatura();
+    	Viatura car = new Viatura();
+    	double comp = Double.MAX_VALUE;
+    	while(it.hasNext()){
+    		car = it.next();
+    		if(car.getPos().distancia(p) < comp){
+    			v = car;
+    			comp = car.getPos().distancia(p);
+    		}
+    	}
+    	return v;
     }
     
     public boolean escreverFicheiro(){
