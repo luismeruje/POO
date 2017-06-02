@@ -12,6 +12,7 @@ public class Viatura
 {
     private static int totalViaturas = 0;
     
+    private Motorista motorista;
     private int codigo;
     private int kms;
     private int vMedia;
@@ -29,6 +30,7 @@ public class Viatura
         precoKm = 0;
         posicao = new Posicao(0,0);
         historico = new ArrayList <Viagem> ();
+        motorista = new Motorista();
     }
     
     public Viatura(int vMedia, int fiabilidade, int precoKm, Posicao posicao){
@@ -40,6 +42,18 @@ public class Viatura
         this.precoKm = precoKm;
         this.posicao = posicao;
         this.historico = new ArrayList<Viagem>();
+        this.motorista = new Motorista();
+    }
+    public Viatura(int vMedia, int fiabilidade, int precoKm, Posicao posicao, Motorista m){
+        this.codigo = totalViaturas;
+        totalViaturas++;
+        this.kms = 0;
+        this.vMedia = vMedia;
+        this.fiabilidade = fiabilidade;
+        this.precoKm = precoKm;
+        this.posicao = posicao;
+        this.historico = new ArrayList<Viagem>();
+        this.motorista = new Motorista(m);
     }
     
     public Viatura(Viatura v){
@@ -50,6 +64,7 @@ public class Viatura
         this.precoKm = v.getPrecoKm();
         this.posicao = v.getPos();
         this.historico = v.getHistorico();
+        this.motorista = v.getMotorista();
     }
     /*
      * Gets e Sets
@@ -61,6 +76,7 @@ public class Viatura
     public int getPrecoKm(){return this.precoKm;}
     public Posicao getPos(){return new Posicao(this.posicao);}
     public List<Viagem> getHistorico(){return new ArrayList<Viagem>(this.historico);}
+    public Motorista getMotorista(){return this.motorista.clone();}
     public void setVMedia(int vm){
     	this.vMedia = vm;
     }
@@ -80,9 +96,9 @@ public class Viatura
     	this.kms += kms;
     }
     
-    public void registaViagem(Viagem v){
+    public void registarViagem(Viagem v){
     	this.historico.add(v.clone());
-    	somaKms(v.getDist());
+    	somaKms(  (int) v.getDist()  );
     }
     
     public double proximidade(Posicao p){

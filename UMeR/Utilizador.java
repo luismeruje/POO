@@ -55,9 +55,7 @@ public class Utilizador
         this.morada = u.getMorada();
         this.nascimento = new Date(nascimento.getTime());
         this.posicao = new Posicao(u.getPosicao());
-        for(Viagem v: u.getViagens()){
-            this.viagens.add(v.clone());
-        }
+        this.viagens = u.getViagens();
     }
     
     public String getEmail(){
@@ -79,7 +77,7 @@ public class Utilizador
         return this.posicao;
     }
     public List<Viagem> getViagens(){
-        return this.viagens;
+        return new ArrayList<Viagem>(this.viagens);
     }
     
     

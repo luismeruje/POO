@@ -13,7 +13,7 @@ public class Viagem
     private long identificacao;
     private String motorista;
     private String cliente;
-    private int distancia;
+    private double distancia;
     private int pontuacao;
     private int custo;
     private int tempo;
@@ -39,7 +39,7 @@ public class Viagem
         this.tempo = 0;
         this.desvio = 0;
     }
-    public Viagem(int d, int p, int c, int t, int dv, String mot, String cliente){
+    public Viagem(double d, int p, int c, int t, int dv, String mot, String cliente){
         this.distancia = d;
         this.pontuacao = p;
         this.custo = c;
@@ -47,7 +47,8 @@ public class Viagem
         this.desvio = dv;
         this.motorista = mot;
         this.cliente = cliente;
-        Viagem.totalViagens ++;
+        this.identificacao = totalViagens;
+        totalViagens ++;
     }
     
     public Viagem(Viagem v){
@@ -57,7 +58,8 @@ public class Viagem
         this.tempo = v.getTempo();
         this.desvio = v.getDesvio();
         this.motorista = v.getMot();
-        Viagem.totalViagens ++;
+        this.identificacao = totalViagens;
+        totalViagens ++;
     }
 
     /*
@@ -67,7 +69,7 @@ public class Viagem
         return this.identificacao;
     }
      
-    public int getDist(){
+    public double getDist(){
         return this.distancia;
     }
     public int getPont(){
@@ -105,7 +107,7 @@ public class Viagem
     }
     
     public String toString(){
-        return ("Viagem:\n Distancia: " + distancia + ".\n Pontuação: " + pontuacao + ".\n Custo: " + custo + ".\n Tempo: "+ tempo + ".\n Desvio: " + desvio + ".\n");
+        return ("====Viagem====\n Distancia: " + distancia + ".\n Pontuação: " + pontuacao + ".\n Custo: " + custo + ".\n Tempo: "+ tempo + ".\n Desvio: " + desvio + ".\n");
     }
     
     public boolean equals(Object o){

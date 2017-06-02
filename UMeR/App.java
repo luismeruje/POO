@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+
+//TODO:: TEMPO!
 public final class App
 {
     private static UMeR dados;
@@ -317,7 +319,10 @@ public final class App
     public static boolean requisitarViagem(Utilizador cliente){
     	int opcao;
         boolean concluido,done = false, exit = false;
-        
+        Viatura req  = new Viatura();
+        Posicao end;
+        double dist;
+        int preco, desvio, tempo, pont = 101;
     	while(!exit){
             System.out.println("================== Requisitar Viagem =================");
             System.out.println("####### Menu #######");
@@ -333,12 +338,49 @@ public final class App
                    input.nextLine();
                    switch(opcao){
                        case 1:
-                    	    System.out.println(dados.getViaturaMaisProx(cliente.getPosicao()).toString());
+                    	    System.out.println("Insira as coordenadas para onde se quer deslocar (x y): ");
+                    	    end = new Posicao(input.nextDouble(),input.nextDouble());
+                    	    dist = end.distancia(cliente.getPosicao());
+                    	    req  = dados.getViaturaMaisProx(cliente.getPosicao());
+                    	    System.out.println("O veiculo mais próxmo é:" + req.toString());
+                    	    req.getMotorista().setDisponibilidade(false);
+                    	    req.getPos().move(end.getX(),end.getY());
+                    	    req.getMotorista().getPosicao().move(end.getX(),end.getY());
+
+                    	    preco = (int) (  dist * req.getPrecoKm()  );
+                    	    desvio = 0;
+                    	    tempo = (int) (  (dist*100)/req.getVMedia() );
+                    	    while(pont<0 || pont >100){
+                    	    	System.out.println("Classifique a sua viagem de 0 a 100:");
+                    	    	pont = input.nextInt();
+                    	    }
+                    	    cliente.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
+                    	    req.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
                     	    
+                    	    done = true;
                     	    concluido = true;
                             break;
                        case 2:
+                    	    System.out.println("Insira o código do veiculo pretendido:");
+                    	    int cod = input.nextInt();
+                    	    req = dados.getViatura(cod);
+                    	    System.out.println("Insira as coordenadas para onde se quer deslocar (x y): ");
+                    	    end = new Posicao(input.nextDouble(),input.nextDouble());
+                    	    dist = end.distancia(cliente.getPosicao());
+                    	    req.getMotorista().setDisponibilidade(false);
+                    	    req.getPos().move(end.getX(),end.getY());
+                    	    req.getMotorista().getPosicao().move(end.getX(),end.getY());
                     	    
+                    	    preco = (int) (  dist * req.getPrecoKm()  );
+                    	    desvio = 0;
+                    	    tempo = (int) (  (dist*100)/req.getVMedia() );
+                    	    while(pont<0 || pont >100){
+                    	    	System.out.println("Classifique a sua viagem de 0 a 100:");
+                    	    	pont = input.nextInt();
+                    	    }
+                    	    cliente.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
+                    	    req.registarViagem(new Viagem(dist, desvio, tempo, preco, pont, req.getMotorista().getNome(), cliente.getNome()));
+                    	    done = true;
                     	    System.out.println("Pressione ENTER para continuar");
                     	    input.nextLine();
                     	    concluido = true;
@@ -364,7 +406,48 @@ public final class App
     }
     
     public static void historicoViagens(Utilizador cliente){
-        
+    	int opcao;
+        boolean concluido,done = false, exit = false;
+    	while(!exit){
+            System.out.println("================== Histórico de Viagens =================");
+            System.out.println("####### Menu #######");
+            System.out.println("1 - Vizualizar histórico\n"
+                              +"2 - Vizualizar viagem\n"
+                              +"3 - Classificar viagem\n"
+                              +"4 - Voltar\n");
+            concluido = false;
+            while(!concluido){
+                System.out.print("Indique o número da operação desejada: ");
+                try{
+                   opcao = input.nextInt();
+                   input.nextLine();
+                   switch(opcao){
+                       case 1:
+                    	   
+                    	    concluido = true;
+                            break;
+                       case 2:
+                    	    System.out.println("Pressione ENTER para continuar");
+                    	    input.nextLine();
+                    	    concluido = true;
+                            break;
+                       case 3:
+                            concluido = true;
+                            break;
+                       case 4:
+                            concluido = true;
+                            exit = true;
+                            break;
+                       default:
+                            System.out.println("Por favor escolha um número entre 1 e 4.");
+                            break;
+                   }
+                   }catch(InputMismatchException e){
+                	   System.out.println("Por favor escolha um número entre 1 e 4.");
+                   }
+    	
+            }
+    	}
     }
     //TODO: implementar com StringBuilder
     public static void areaMotorista(Motorista motorista){
