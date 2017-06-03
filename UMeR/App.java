@@ -108,7 +108,7 @@ public final class App
         
         //TODO: dados.loadFicheiro(); -> tem que fazer set da variável global de viagens
         dados = new UMeR(); 
-        //carregarDados();
+        dados.lerFicheiro();
         
         while(!exit){
             limparConsola();
@@ -150,8 +150,7 @@ public final class App
                       //estatisticas();
                       break;
                 case 6:
-                      //dados.escreveFicheiro();
-                      //salvarDados();
+                      dados.escreverFicheiro();
                       exit = true;
                       break;
                 default:
@@ -368,9 +367,9 @@ public final class App
                             dist = end.distancia(cliente.getPosicao());
                             req  = dados.getViaturaMaisProx(cliente.getPosicao());
                             System.out.println("O veiculo mais próxmo é:" + req.toString());
-                            req.getMotorista().setDisponibilidade(false);
+                            dados.getMotorista(req.getMotoristaEmail()).setDisponibilidade(false);
                             req.getPos().move(end.getX(),end.getY());
-                            req.getMotorista().getPosicao().move(end.getX(),end.getY());
+                            dados.getMotorista(req.getMotoristaEmail()).getPosicao().move(end.getX(),end.getY());
 
                             preco = (  dist * req.getPrecoKm()  );
                             desvio = 0;
@@ -379,8 +378,8 @@ public final class App
                                 System.out.println("Classifique a sua viagem de 0 a 100:");
                                 pont = input.nextInt();
                             }
-                            cliente.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
-                            req.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
+                            cliente.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, dados.getMotorista(req.getMotoristaEmail()).getNome(), cliente.getNome()));
+                            req.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, dados.getMotorista(req.getMotoristaEmail()).getNome(), cliente.getNome()));
                             
                             done = true;
                             concluido = true;
@@ -392,9 +391,9 @@ public final class App
                             System.out.println("Insira as coordenadas para onde se quer deslocar (x y): ");
                             end = new Posicao(input.nextDouble(),input.nextDouble());
                             dist = end.distancia(cliente.getPosicao());
-                            req.getMotorista().setDisponibilidade(false);
+                            dados.getMotorista(req.getMotoristaEmail()).setDisponibilidade(false);
                             req.getPos().move(end.getX(),end.getY());
-                            req.getMotorista().getPosicao().move(end.getX(),end.getY());
+                            dados.getMotorista(req.getMotoristaEmail()).getPosicao().move(end.getX(),end.getY());
                             
                             preco = (  dist * req.getPrecoKm()  );
                             desvio = 0;
@@ -403,8 +402,8 @@ public final class App
                                 System.out.println("Classifique a sua viagem de 0 a 100:");
                                 pont = input.nextInt();
                             }
-                            cliente.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
-                            req.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, req.getMotorista().getNome(), cliente.getNome()));
+                            cliente.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, dados.getMotorista(req.getMotoristaEmail()).getNome(), cliente.getNome()));
+                            req.registarViagem(new Viagem(dist, pont, tempo, preco, desvio, dados.getMotorista(req.getMotoristaEmail()).getNome(), cliente.getNome()));
                             done = true;
                             System.out.println("Pressione ENTER para continuar");
                             input.nextLine();
@@ -546,10 +545,10 @@ public final class App
         
         p = lerCoordenadas();
         
-        Viatura novo = new Viatura(vm,fiabilidade,pkm,p);
+        Viatura novo = new Viatura(vm,fiabilidade,pkm,p,motorista.getEmail());
         
         dados.addViatura(novo);  
-        motorista.addViatura(novo.getCodigo());
+        motorista.addViatura(novo.getIdentificacao());
     }
     
     

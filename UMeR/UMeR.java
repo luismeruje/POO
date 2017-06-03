@@ -11,6 +11,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Date;
 import java.util.ArrayList;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Scanner;
 public class UMeR
 {
     //TODO: mudar tipo dos valores do map de motoristas para Motorista?
@@ -63,26 +70,31 @@ public class UMeR
         return motorista;
     }
     
+    public Motorista getMotorista(String email){
+        Motorista motorista = motoristas.get(email);
+        return motorista;
+    }
+    
     public Viatura addViatura(Viatura v){
-    	return this.viaturas.put(v.getCodigo(), v);
+        return this.viaturas.put(v.getIdentificacao(), v);
     }
     public Viatura getViatura(int codigo){
-    	Integer cod = new Integer(codigo);
-    	return this.viaturas.get(cod);
+        Integer cod = new Integer(codigo);
+        return this.viaturas.get(cod);
     }
     public Viatura getViaturaMaisProx(Posicao p){
-    	Iterator<Viatura> it = this.viaturas.values().iterator();
-    	Viatura v = new Viatura();
-    	Viatura car = new Viatura();
-    	double comp = Double.MAX_VALUE;
-    	while(it.hasNext()){
-    		car = it.next();
-    		if(car.getPos().distancia(p) < comp){
-    			v = car;
-    			comp = car.getPos().distancia(p);
-    		}
-    	}
-    	return v;
+        Iterator<Viatura> it = this.viaturas.values().iterator();
+        Viatura v = new Viatura();
+        Viatura car = new Viatura();
+        double comp = Double.MAX_VALUE;
+        while(it.hasNext()){
+            car = it.next();
+            if(car.getPos().distancia(p) < comp){
+                v = car;
+                comp = car.getPos().distancia(p);
+            }
+        }
+        return v;
     }
     
     public List<Viatura> getViaturas(List<Integer> viaturasCodigos){
@@ -96,7 +108,116 @@ public class UMeR
         return cópiaViaturas;
     }
     
-    public boolean escreverFicheiro(){
-    	return false;
+    public void escreverFicheiro(){
+        Scanner input = new Scanner(System.in);
+        try{
+            escreveMotoristas();
+            escreveClientes();
+            //escreveViaturas();
+        }
+        catch(FileNotFoundException e){
+        }
+        catch(IOException e){
+           System.out.println("Ocorreu um erro na escrita da informação dos motoristas, a informação não será guardada.");
+           System.out.print("Pressione ENTER para continuar...");
+           input.nextLine();
+        }
+    }
+    
+    public void lerFicheiro(){
+        Scanner input = new Scanner(System.in);
+        try{
+            lerMotoristas();
+            lerClientes();
+            //lerViaturas();
+        }
+        catch(FileNotFoundException e){
+           System.out.println("Um ou mais ficheiros de informação não encontrados.");
+           System.out.print("Pressione ENTER para continuar...");
+           input.nextLine();
+        }
+        catch(IOException e){
+           System.out.println("Ocorreu um erro na leitura da informação.");
+           System.out.print("Pressione ENTER para continuar...");
+           input.nextLine();
+        }
+        catch(ClassNotFoundException e){
+           System.out.println("Um ou mais ficheiros de dados corrompidos.");
+           System.out.print("Pressione ENTER para continuar...");
+           input.nextLine();
+        }
+    }
+    
+    public void escreveMotoristas() throws FileNotFoundException, IOException{
+        FileOutputStream ficheiro = new FileOutputStream("motoristaData.ser");
+        ObjectOutputStream os = new ObjectOutputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        Iterator<Motorista> it = motoristas.values().iterator();
+        Motorista m = null;
+        while(it.hasNext()){
+            m = it.next();
+            data.add(m.escreverFicheiro());
+        }
+        os.writeObject(data);
+        os.close();
+        ficheiro.close();
+    }
+    
+    public void escreveClientes() throws FileNotFoundException, IOException{
+        FileOutputStream ficheiro = new FileOutputStream("clienteData.ser");
+        ObjectOutputStream os = new ObjectOutputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        Iterator<Utilizador> it = clientes.values().iterator();
+        Utilizador c = null;
+        while(it.hasNext()){
+            c = it.next();
+            data.add(c.escreverFicheiro());
+        }
+        os.writeObject(data);
+        os.close();
+        ficheiro.close();
+    }
+    
+    //Link: https://www.youtube.com/watch?v=-WnNv6LoioQ
+    public void lerMotoristas()throws FileNotFoundException, IOException,ClassNotFoundException{
+        FileInputStream ficheiro = new FileInputStream("motoristaData.ser");
+        ObjectInputStream is = new ObjectInputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        data = (ArrayList<Object>)is.readObject();
+        
+        is.close();
+        ficheiro.close();
+        
+        Object o = null;
+        Motorista m = null;
+        Iterator<Object> it = data.iterator();
+        while(it.hasNext()){
+            o = it.next();
+            m = Motorista.lerFicheiro(o);
+            motoristas.put(m.getEmail(),m);
+        }
+    }
+    //TODO:passar cliente para a sua própria classe.
+    public void lerClientes()throws FileNotFoundException, IOException,ClassNotFoundException{
+        FileInputStream ficheiro = new FileInputStream("clienteData.ser");
+        ObjectInputStream is = new ObjectInputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        data = (ArrayList<Object>)is.readObject();
+        
+        is.close();
+        ficheiro.close();
+        
+        Object o = null;
+        Utilizador c = null;
+        Iterator<Object> it = data.iterator();
+        while(it.hasNext()){
+            o = it.next();
+            c = Utilizador.lerFicheiro(o);
+            clientes.put(c.getEmail(),c);
+        }
     }
 }

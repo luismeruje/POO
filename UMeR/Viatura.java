@@ -12,71 +12,62 @@ public class Viatura
 {
     private static int totalViaturas = 0;
     
-    private Motorista motorista;
-    private int codigo;
+    private String motoristaEmail;
+    private int identificacao;
     private float kms;
     private float vMedia;
     private int fiabilidade;
     private float precoKm;
     private Posicao posicao;
-    private List <Viagem> historico;
+    private List <Integer> historico;
+    private int Lugares;
     
     //Nota: Corresponde a uma "viatura nula", a ser substituida quando for inserido o primeiro veiculo
     public Viatura(){
-        codigo = -1;
+        identificacao = -1;
         kms = 0;
         vMedia = 0;
         fiabilidade = 0;
         precoKm = 0;
         posicao = new Posicao(0,0);
-        historico = new ArrayList <Viagem> ();
-        motorista = new Motorista();
+        historico = new ArrayList <Integer> ();
+        motoristaEmail = "";
     }
     
-    public Viatura(float vMedia, int fiabilidade, float precoKm, Posicao posicao){
-        this.codigo = totalViaturas;
+  
+    public Viatura(float vMedia, int fiabilidade, float precoKm, Posicao posicao, String email){
+        this.identificacao = totalViaturas;
         totalViaturas++;
         this.kms = 0;
         this.vMedia = vMedia;
         this.fiabilidade = fiabilidade;
         this.precoKm = precoKm;
         this.posicao = posicao;
-        this.historico = new ArrayList<Viagem>();
-        this.motorista = new Motorista();
-    }
-    public Viatura(float vMedia, int fiabilidade, float precoKm, Posicao posicao, Motorista m){
-        this.codigo = totalViaturas;
-        totalViaturas++;
-        this.kms = 0;
-        this.vMedia = vMedia;
-        this.fiabilidade = fiabilidade;
-        this.precoKm = precoKm;
-        this.posicao = posicao;
-        this.historico = new ArrayList<Viagem>();
-        this.motorista = new Motorista(m);
+        this.historico = new ArrayList<Integer>();
+        this.motoristaEmail = email;
     }
     
     public Viatura(Viatura v){
-    	this.codigo = v.getCodigo();
+    	this.identificacao = v.getIdentificacao();
         this.kms = v.getKms();
         this.vMedia = v.getKms();
         this.fiabilidade = v.getFiabilidade();
         this.precoKm = v.getPrecoKm();
         this.posicao = v.getPos();
         this.historico = v.getHistorico();
-        this.motorista = v.getMotorista();
+        this.motoristaEmail = v.getMotoristaEmail();
     }
     /*
      * Gets e Sets
      */
-    public int getCodigo(){return this.codigo;}
+    public int getIdentificacao(){return this.identificacao;}
     public float getKms(){return this.kms;}
     public float getVMedia(){return this.vMedia;}
     public int getFiabilidade(){return this.fiabilidade;}
     public float getPrecoKm(){return this.precoKm;}
     public Posicao getPos(){return new Posicao(this.posicao);}
-    public List<Viagem> getHistorico(){return new ArrayList<Viagem>(this.historico);}
-    public Motorista getMotorista(){return this.motorista.clone();}
+    public List<Integer> getHistorico(){return new ArrayList<Integer>(this.historico);}
+    public String getMotoristaEmail(){return this.motoristaEmail;}
     public void setVMedia(int vm){
     	this.vMedia = vm;
     }
@@ -97,7 +88,7 @@ public class Viatura
     }
     
     public void registarViagem(Viagem v){
-    	this.historico.add(v.clone());
+    	this.historico.add(v.getIdentificacao());
     	somaKms(  (int) v.getDist()  );
     }
     
@@ -114,7 +105,7 @@ public class Viatura
     }
     
     public String toString2(){
-    	String s = new String("Codigo: " + this.codigo
+    	String s = new String("Codigo: " + this.identificacao
     						  + "\nTotal de quilómetros da viatura: " + this.kms
     						  + "\nPreço por quilómetro: " + this.precoKm
     						  + "\nPosição:"  +  this.posicao.toString()
@@ -127,11 +118,11 @@ public class Viatura
     	if( o == null || o.getClass() != this.getClass()) return false;
     	Viatura v = (Viatura) o;
     	if(this.historico.size() != v.getHistorico().size()) return false;
-    	Iterator<Viagem> it = v.getHistorico().iterator();
+    	Iterator<Integer> it = v.getHistorico().iterator();
     	while(it.hasNext()){
     		if(!this.historico.contains(it.next())) return false;
     	}
-    	return (this.codigo == v.getCodigo() &&
+    	return (this.identificacao == v.getIdentificacao() &&
     			this.fiabilidade == v.getFiabilidade() &&
     			this.kms == v.getKms() &&
     			this.precoKm == v.getPrecoKm() &&

@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.params=totalViagens
-comment0.target=void\ setTotalViagens(long)
+comment0.target=void\ setTotalViagens(int)
 comment1.params=
 comment1.target=Viagem()
 comment1.text=\n\ Construtores\n
@@ -24,7 +24,7 @@ comment2.target=Viagem(double,\ int,\ double,\ double,\ double,\ java.lang.Strin
 comment3.params=v
 comment3.target=Viagem(Viagem)
 comment4.params=
-comment4.target=long\ getIdentificacao()
+comment4.target=int\ getIdentificacao()
 comment4.text=\n\ gets\ e\ sets\n
 comment5.params=
 comment5.target=double\ getDist()

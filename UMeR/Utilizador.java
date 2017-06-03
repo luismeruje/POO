@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class Utilizador
 {
     private String email;
@@ -31,7 +34,7 @@ public class Utilizador
         this.nascimento = new Date(nascimento.getTime());
         this.posicao = new Posicao(posicao);
         this.viagens = new ArrayList<Viagem>();  
-        		//-->talvez seja melhor passar a map.
+                //-->talvez seja melhor passar a map.
     }
     
     
@@ -86,8 +89,45 @@ public class Utilizador
     }
     
     public void registarViagem(Viagem v){
-    	this.viagens.add(v.clone());
+        this.viagens.add(v.clone());
     }
     
-    //Clone, equals, toString
+    public ArrayList<Object> escreverFicheiro ()throws FileNotFoundException, IOException{
+        ArrayList<Object> data = new ArrayList<Object>();
+        data.add(getEmail()); //0
+        data.add(getNome()); //1
+        data.add(getPassword()); //2
+        data.add(getMorada()); //3
+        data.add(getNascimento()); //4
+        data.add(getPosicao().getX()); //5
+        data.add(getPosicao().getY()); //6
+        
+        return data;
+    }
+    
+    public static Utilizador lerFicheiro(Object utilizador)throws FileNotFoundException, IOException, ClassNotFoundException{
+        ArrayList<Object> data = new ArrayList<Object>();
+        data = (ArrayList<Object>) utilizador;
+        
+        String email,nome,password,morada;
+        int kms;
+        double x, y;
+        Date nascimento;
+        Posicao p;
+        
+        email = (String) data.get(0);
+        nome = (String) data.get(1);
+        password = (String) data.get(2);
+        morada = (String) data.get(3);
+        nascimento = (Date) data.get(4);
+        x = (double) data.get(5);
+        y = (double) data.get(6);
+        
+        p = new Posicao(x,y);
+        return new Utilizador(email,nome,password,morada,nascimento,p);
+    }
+    
+    public Utilizador clone(){
+        return new Utilizador(this);
+    }
 }

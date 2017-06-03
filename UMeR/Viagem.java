@@ -7,10 +7,10 @@
  */
 public class Viagem
 {
-    private static long totalViagens = 0; //-> programa começa com nr total de viagens a zero
+    private static int totalViagens = 0; //-> programa começa com nr total de viagens a zero
     
     
-    private long identificacao;
+    private int identificacao;
     private String motorista;
     private String cliente;
     private double distancia;
@@ -21,7 +21,7 @@ public class Viagem
     
     
     
-    public static void setTotalViagens(long totalViagens){
+    public static void setTotalViagens(int totalViagens){
         Viagem.totalViagens = totalViagens;
     }
     
@@ -65,7 +65,7 @@ public class Viagem
     /*
      * gets e sets
      */
-    public long getIdentificacao(){
+    public int getIdentificacao(){
         return this.identificacao;
     }
      
