@@ -10,16 +10,18 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 public class Motorista extends Utilizador
 {
     //TODO: Adicionar lista de viaturas
-    private List<Viatura> viaturas;
+    private List<Integer> viaturasCodigos;
     private int pontuacaoHorario;
     private int classificacao;
     private boolean disponivel;
     private int kms;
     private int nrViagensRealizadas;
-    private Viatura viaturaEmUso;
+    private int viaturaEmUso;
     //WARNING: só deixar pôr-se disponível se tiver algum carro adicionado.
     //WARNING: quando não tiver nenhum carro devolve uma viatura "simbólica" de código -1
     public Motorista(){
@@ -29,22 +31,24 @@ public class Motorista extends Utilizador
         disponivel = false;
         kms = -1;
         nrViagensRealizadas = -1;
-        viaturas = new ArrayList<Viatura>();
-        viaturaEmUso = null;
+        viaturasCodigos = new ArrayList<Integer>();
+        viaturaEmUso = -1;
     }
+    
     public Motorista(String email, String nome, String pass, String morada, Date nascimento, Posicao posicao){
         super(email,nome,pass,morada,nascimento,posicao);
-        viaturas = new ArrayList<Viatura>();
+        viaturasCodigos = new ArrayList<Integer>();
         pontuacaoHorario = 0;
         classificacao = 0;
         disponivel = false;
         kms = 0;
         nrViagensRealizadas = 0;
-        viaturaEmUso = null;
+        viaturaEmUso = -1;
     }
+    
     public Motorista(Motorista m){
         super(m.getEmail(),m.getNome(),m.getPassword(),m.getMorada(),m.getNascimento(),m.getPosicao());
-        viaturas = new ArrayList<Viatura>(m.getViaturas());
+        viaturasCodigos = new ArrayList<Integer>(m.getViaturasCodigos());
         pontuacaoHorario = m.getPontuacaoHorario();
         classificacao = m.getClassificacao();
         disponivel = m.getDisponivel();
@@ -52,24 +56,12 @@ public class Motorista extends Utilizador
         nrViagensRealizadas = m.getNrViagensRealizadas();
     }
     
-    //TODO:: throws ViaturaInexistenteException.
-    public Viatura getViatura(int cod)throws ViaturaNaoDisponivelException{
-        Iterator<Viatura> it = viaturas.iterator();
-        Viatura v;
-        while(it.hasNext()){
-            v = it.next();
-            if (v.getCodigo() == cod) return v;
-        }
-        throw new ViaturaNaoDisponivelException("ERRO: Codigo da viatura não pertence ao motorista.");
+    public List<Integer> getViaturasCodigos(){
+        return new ArrayList<Integer> (viaturasCodigos);
     }
-    
-    public List<Viatura> getViaturas(){
-        return new ArrayList<Viatura>(this.viaturas);
-    }
-    
     //TODO: passar a clone e meter métodos para alterarkms de viatura e outros, como viagem..
-    public Viatura getViaturaEmUso()throws ViaturaNaoDisponivelException{
-        if(viaturaEmUso != null){
+    public Integer getViaturaEmUso()throws ViaturaNaoDisponivelException{
+        if(viaturaEmUso != -1){
             return viaturaEmUso;
         }
         throw new ViaturaNaoDisponivelException("ERRO: Não existe nenhuma viatura selecionada.");
@@ -89,8 +81,8 @@ public class Motorista extends Utilizador
     public void setDisponibilidade(boolean disp){
         this.disponivel = disp;
     }
-    public void setViatura(Viatura v){
-        viaturas.add(v);
+    public void addViatura(Integer codigo){
+        viaturasCodigos.add(codigo);
     }
     //TODO: kms deve incluir também deslocações do taxi até ao cliente?
     //TODO: clientes pagam a deslocação do táxi até eles?
@@ -108,7 +100,19 @@ public class Motorista extends Utilizador
         return new Motorista(this);
     }
     
-    public void setViaturaEmUso(Viatura v){
-        viaturaEmUso = v;
+    public void setViaturaEmUso(Integer cod)throws ViaturaNaoDisponivelException{
+        Iterator<Integer> it = viaturasCodigos.iterator();
+        int codigo;
+        boolean concluido = false;
+        while(it.hasNext() && !concluido){
+            codigo = it.next();
+            if (codigo == cod){
+                viaturaEmUso = cod;
+                concluido = true;
+            }
+        }
+        if(concluido == false){
+            throw new ViaturaNaoDisponivelException("ERRO: Codigo da viatura não pertence ao motorista");
+        }
     }
 }

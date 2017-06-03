@@ -259,6 +259,7 @@ public final class App
         morada = input.nextLine();
         
         p = lerCoordenadas();
+        
         resultado = dados.adicionaCliente(email,nome,morada,nascimento,password,p);
         return resultado;
     }
@@ -305,6 +306,7 @@ public final class App
         morada = input.nextLine();
         
         p = lerCoordenadas();
+        
         resultado = dados.adicionaMotorista(email,nome,morada,nascimento,password,p);
         return resultado;
     
@@ -482,7 +484,7 @@ public final class App
             
             System.out.print("Veiculo em uso: ");
             try{
-                System.out.printf("%d\n",motorista.getViaturaEmUso().getCodigo());
+                System.out.printf("%d\n",motorista.getViaturaEmUso());
             }
             catch(ViaturaNaoDisponivelException e){
                 System.out.println("-1");
@@ -545,20 +547,19 @@ public final class App
         p = lerCoordenadas();
         
         Viatura novo = new Viatura(vm,fiabilidade,pkm,p);
-        motorista.setViatura(novo);
-        dados.addViatura(novo);      
+        
+        dados.addViatura(novo);  
+        motorista.addViatura(novo.getCodigo());
     }
     
     
     public static void selecionarViatura(Motorista motorista){
        int codigo;
        boolean selecionado = false;
-       Viatura v;
        codigo = lerNumeroInt("Escreva o codigo da viatura desejada:","");
        try{
-          v = motorista.getViatura(codigo);
-          motorista.setViaturaEmUso(v);
-          System.out.println("Selecionou:\n" + v.toString());          
+          motorista.setViaturaEmUso(codigo);
+          System.out.println("Selecionou:\n" + dados.getViatura(codigo).toString());          
        }catch(ViaturaNaoDisponivelException e){
              System.out.println(e.getMessage());
        }
@@ -569,7 +570,7 @@ public final class App
     
     public static void imprimirViaturas(Motorista motorista){
         int i = 0;
-        for(Viatura car: motorista.getViaturas()){
+        for(Viatura car: dados.getViaturas(motorista.getViaturasCodigos())){
              System.out.printf("\n--- Viatura %d:\n",i);
              System.out.println(car.toString2()); 
              i++;

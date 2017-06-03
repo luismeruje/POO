@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Date;
+import java.util.ArrayList;
 public class UMeR
 {
     //TODO: mudar tipo dos valores do map de motoristas para Motorista?
@@ -82,6 +83,17 @@ public class UMeR
     		}
     	}
     	return v;
+    }
+    
+    public List<Viatura> getViaturas(List<Integer> viaturasCodigos){
+        Iterator<Integer> it = viaturasCodigos.iterator();
+        List <Viatura> cópiaViaturas = new ArrayList<Viatura>();
+        int codigo;
+        while(it.hasNext()){
+            codigo = it.next();
+            cópiaViaturas.add(viaturas.get(codigo));
+        }
+        return cópiaViaturas;
     }
     
     public boolean escreverFicheiro(){
