@@ -18,6 +18,7 @@ import java.io.FileOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 public class Motorista extends Utilizador implements Serializable
 {
     //TODO: Adicionar lista de viagens
@@ -96,7 +97,15 @@ public class Motorista extends Utilizador implements Serializable
         return disponivel;
     }
     public void setDisponibilidade(boolean disp){
-        this.disponivel = disp;
+        if(viaturaEmUso != -1)
+            this.disponivel = disp;
+        else{
+            System.out.println("Por favor selecione/adicione um carro");
+            System.out.println("Pressione ENTER para continuar...");
+            Scanner input = new Scanner(System.in);
+            input.nextLine();
+            this.disponivel = false;
+        }
     }
     public void addViatura(Integer codigo){
         viaturasCodigos.add(codigo);

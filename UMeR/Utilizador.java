@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Utilizador
 {
@@ -20,7 +21,7 @@ public class Utilizador
     private String morada;
     private Date nascimento;
     private Posicao posicao;
-    private List <Viagem> viagens;
+    private List <Integer> viagens;
     
     //depois remover;
     public Utilizador(){
@@ -33,21 +34,21 @@ public class Utilizador
         this.morada = morada;
         this.nascimento = new Date(nascimento.getTime());
         this.posicao = new Posicao(posicao);
-        this.viagens = new ArrayList<Viagem>();  
+        this.viagens = new ArrayList<Integer>();  
                 //-->talvez seja melhor passar a map.
     }
     
     
     
-    public Utilizador(String email, String nome, String pass, String morada, String data_de_nascimento, Posicao posicao, List<Viagem> viagens){
+    public Utilizador(String email, String nome, String pass, String morada, String data_de_nascimento, Posicao posicao, List<Integer> viagens){
         this.email = email;
         this.nome = nome;
         this.password = pass;
         this.morada = morada;
         this.nascimento = new Date(nascimento.getTime());
         this.posicao = new Posicao(posicao);
-        for(Viagem v: viagens){
-            this.viagens.add(v.clone());
+        for(Integer v: viagens){
+            this.viagens.add(v);
         }
     }
     
@@ -58,7 +59,7 @@ public class Utilizador
         this.morada = u.getMorada();
         this.nascimento = new Date(nascimento.getTime());
         this.posicao = new Posicao(u.getPosicao());
-        this.viagens = u.getViagens();
+        this.viagens = u.getViagensCodigos();
     }
     
     public String getEmail(){
@@ -79,8 +80,8 @@ public class Utilizador
     public Posicao getPosicao(){
         return this.posicao;
     }
-    public List<Viagem> getViagens(){
-        return new ArrayList<Viagem>(this.viagens);
+    public List<Integer> getViagensCodigos(){
+        return new ArrayList<Integer>(this.viagens);
     }
     
     
@@ -88,19 +89,20 @@ public class Utilizador
         posicao = p;
     }
     
-    public void registarViagem(Viagem v){
-        this.viagens.add(v.clone());
+    public void registarViagem(Integer identificacao){
+        this.viagens.add(identificacao);
     }
     
     public ArrayList<Object> escreverFicheiro ()throws FileNotFoundException, IOException{
         ArrayList<Object> data = new ArrayList<Object>();
-        data.add(getEmail()); //0
-        data.add(getNome()); //1
-        data.add(getPassword()); //2
-        data.add(getMorada()); //3
-        data.add(getNascimento()); //4
-        data.add(getPosicao().getX()); //5
-        data.add(getPosicao().getY()); //6
+        data.add(email); //0
+        data.add(nome); //1
+        data.add(password); //2
+        data.add(morada); //3
+        data.add(nascimento); //4
+        data.add(posicao.getX()); //5
+        data.add(posicao.getY()); //6
+        data.add(viagens);//7
         
         return data;
     }
@@ -114,6 +116,7 @@ public class Utilizador
         double x, y;
         Date nascimento;
         Posicao p;
+        ArrayList <Integer> viagens;
         
         email = (String) data.get(0);
         nome = (String) data.get(1);
@@ -122,6 +125,7 @@ public class Utilizador
         nascimento = (Date) data.get(4);
         x = (double) data.get(5);
         y = (double) data.get(6);
+        viagens = (ArrayList <Integer>) data.get(7);
         
         p = new Posicao(x,y);
         return new Utilizador(email,nome,password,morada,nascimento,p);

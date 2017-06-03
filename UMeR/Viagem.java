@@ -5,6 +5,9 @@
  * @author (seu nome) 
  * @version (número de versão ou data)
  */
+import java.util.ArrayList;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 public class Viagem
 {
     private static int totalViagens = 0; //-> programa começa com nr total de viagens a zero
@@ -61,6 +64,17 @@ public class Viagem
         this.identificacao = totalViagens;
         totalViagens ++;
     }
+    
+    public Viagem(int identificacao,String motorista,String cliente,double distancia,int pontuacao,double custo,double tempo,double desvio){
+        this.identificacao = identificacao;
+        this.motorista = motorista;
+        this.cliente = cliente;
+        this.distancia = distancia;
+        this.pontuacao = pontuacao;
+        this.custo = custo;
+        this.tempo = tempo;
+        this.desvio = desvio;
+    }
 
     /*
      * gets e sets
@@ -88,14 +102,14 @@ public class Viagem
         return this.motorista;
     }
     public String getCliente(){
-    	return this.cliente;
+        return this.cliente;
     }
     public long getTotalViagens(){
-    	return Viagem.totalViagens;
+        return Viagem.totalViagens;
     }
     
     public void setPont(int pontos){
-    	this.pontuacao = pontos;
+        this.pontuacao = pontos;
     }
     
     /*
@@ -119,45 +133,36 @@ public class Viagem
        if(this.identificacao == v.getIdentificacao() ) return true;
        return false;
     }
+    public ArrayList<Object> escreverFicheiro ()throws FileNotFoundException, IOException{
+        ArrayList<Object> data = new ArrayList<Object>();
+        data.add(identificacao); //0
+        data.add(motorista); //1
+        data.add(cliente); //2
+        data.add(distancia); //3
+        data.add(pontuacao); //4
+        data.add(custo); //5
+        data.add(tempo); //6
+        data.add(desvio); //7
+        return data;
+    }
+    
+    public static Viagem lerFicheiro(Object viagem)throws FileNotFoundException, IOException, ClassNotFoundException{
+        ArrayList<Object> data = new ArrayList<Object>();
+        data = (ArrayList<Object>) viagem;
+        
+        int identificacao, pontuacao;
+        String motorista, cliente;
+        double distancia, custo, tempo, desvio;
+        
+        identificacao = (int) data.get(0);
+        motorista = (String) data.get(1);
+        cliente = (String) data.get(2);
+        distancia = (double) data.get(3);
+        pontuacao = (int) data.get(4);
+        custo = (double) data.get(5);
+        tempo = (double) data.get(6);
+        desvio = (double)data.get(7);
+        
+        return new Viagem(identificacao,motorista,cliente,distancia,pontuacao,custo,tempo,desvio);
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

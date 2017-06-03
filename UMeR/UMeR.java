@@ -24,11 +24,12 @@ public class UMeR
     private Map <Integer,Viatura> viaturas;
     private Map <String,Utilizador> clientes;
     private Map <String,Motorista> motoristas;
-    
+    private Map <Integer,Viagem> viagens;
     public UMeR(){
         viaturas = new HashMap<Integer,Viatura>();
         clientes = new HashMap<String,Utilizador>();
         motoristas = new HashMap<String,Motorista>();
+        viagens = new HashMap<Integer,Viagem>();
     }
     
     //true-> sucesso false->já existe cliente com este email na lista
@@ -44,11 +45,47 @@ public class UMeR
     
     //Devolve null se o cliente não está registado ou se a password está errada.
     //TODO: throw exception loginInvalido
-    public Utilizador getCliente(String email, String password){
+    public Utilizador validaCliente(String email, String password){
         Utilizador cliente = clientes.get(email);
         if(cliente != null && !password.equals(cliente.getPassword()))
             cliente = null; 
         return cliente;
+    }
+    
+    //TODO: throw exception loginInvalido
+    public Motorista validaMotorista(String email, String password){
+        Motorista motorista = motoristas.get(email);
+        if(motorista != null && !password.equals(motorista.getPassword()))
+            motorista = null; //Motorista é posto a NULL se a password estiver errada.
+        return motorista;
+    }
+    
+    //TODO: throw exception cliente inexistente
+    public Utilizador getCliente(String email){
+        Utilizador cliente = clientes.get(email);
+        return cliente;
+    }
+    
+
+    public Motorista getMotorista(String email){
+        Motorista motorista = motoristas.get(email);
+        return motorista;
+    }
+    
+    public Viagem getViagem(Integer identificacao){
+        Viagem viagem = viagens.get(identificacao);
+        return viagem;
+    }
+    
+    public List<Viagem> getViagens(List<Integer> identificacao){
+        List<Viagem> viagens = new ArrayList<Viagem>();
+        Iterator<Integer> it = identificacao.iterator();
+        Integer i = null;
+        while(it.hasNext()){
+            i = it.next();
+            viagens.add(this.viagens.get(i));
+        }
+        return viagens;
     }
     
     public boolean adicionaMotorista(String email, String nome, String morada, Date nascimento, String password,Posicao p){
@@ -62,41 +99,57 @@ public class UMeR
         return !resultado;
     }
     
-    //TODO: throw exception motoristaInexistente
-    public Motorista getMotorista(String email, String password){
-        Motorista motorista = motoristas.get(email);
-        if(motorista != null && !password.equals(motorista.getPassword()))
-            motorista = null; //Motorista é posto a NULL se a password estiver errada.
-        return motorista;
+    public boolean adicionaViatura(Viatura v){
+        boolean resultado;
+      
+        if(!(resultado = viaturas.containsKey(v.getIdentificacao()))){
+            viaturas.put(v.getIdentificacao(),v);
+        }
+        
+        return !resultado;
     }
     
-    public Motorista getMotorista(String email){
-        Motorista motorista = motoristas.get(email);
-        return motorista;
+    public boolean adicionaViagem(Viagem v){
+        boolean resultado;
+      
+        if(!(resultado = viagens.containsKey(v.getIdentificacao()))){
+            viagens.put(v.getIdentificacao(),v);
+        }
+        
+        return !resultado;
     }
     
-    public Viatura addViatura(Viatura v){
-        return this.viaturas.put(v.getIdentificacao(), v);
-    }
     public Viatura getViatura(int codigo){
         Integer cod = new Integer(codigo);
         return this.viaturas.get(cod);
     }
+    
+    //Devolve NULL se não houver nenhuma viatura disponível
     public Viatura getViaturaMaisProx(Posicao p){
-        Iterator<Viatura> it = this.viaturas.values().iterator();
-        Viatura v = new Viatura();
-        Viatura car = new Viatura();
-        double comp = Double.MAX_VALUE;
+        Iterator<Motorista> it = this.motoristas.values().iterator();
+        Viatura v = null;
+        Motorista mMaisProx = null;
+        Motorista mAux = null;
+        double dist = Double.MAX_VALUE;
         while(it.hasNext()){
-            car = it.next();
-            if(car.getPos().distancia(p) < comp){
-                v = car;
-                comp = car.getPos().distancia(p);
+            mAux = it.next();
+            if(mAux.getDisponivel()){
+                if(mAux.getPosicao().distancia(p) < dist){
+                    mMaisProx = mAux;
+                    dist = mAux.getPosicao().distancia(p);
+                }
             }
+        }
+        try{
+            if(mMaisProx != null)
+                v = getViatura(mMaisProx.getViaturaEmUso());
+        }
+        catch(ViaturaNaoDisponivelException e){
+            //Não é necessário fazer catch,verifica-se em cima;
         }
         return v;
     }
-    
+    //VER!!
     public List<Viatura> getViaturas(List<Integer> viaturasCodigos){
         Iterator<Integer> it = viaturasCodigos.iterator();
         List <Viatura> cópiaViaturas = new ArrayList<Viatura>();
@@ -113,7 +166,8 @@ public class UMeR
         try{
             escreveMotoristas();
             escreveClientes();
-            //escreveViaturas();
+            escreveViaturas();
+            escreveViagens();
         }
         catch(FileNotFoundException e){
         }
@@ -129,7 +183,8 @@ public class UMeR
         try{
             lerMotoristas();
             lerClientes();
-            //lerViaturas();
+            lerViaturas();
+            lerViagens();
         }
         catch(FileNotFoundException e){
            System.out.println("Um ou mais ficheiros de informação não encontrados.");
@@ -180,6 +235,38 @@ public class UMeR
         ficheiro.close();
     }
     
+    public void escreveViaturas() throws FileNotFoundException, IOException{
+        FileOutputStream ficheiro = new FileOutputStream("viaturaData.ser");
+        ObjectOutputStream os = new ObjectOutputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        Iterator<Viatura> it = viaturas.values().iterator();
+        Viatura v = null;
+        while(it.hasNext()){
+            v = it.next();
+            data.add(v.escreverFicheiro());
+        }
+        os.writeObject(data);
+        os.close();
+        ficheiro.close();
+    }
+    
+    public void escreveViagens() throws FileNotFoundException, IOException{
+        FileOutputStream ficheiro = new FileOutputStream("viagemData.ser");
+        ObjectOutputStream os = new ObjectOutputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        Iterator<Viagem> it = viagens.values().iterator();
+        Viagem v = null;
+        while(it.hasNext()){
+            v = it.next();
+            data.add(v.escreverFicheiro());
+        }
+        os.writeObject(data);
+        os.close();
+        ficheiro.close();
+    }
+    
     //Link: https://www.youtube.com/watch?v=-WnNv6LoioQ
     public void lerMotoristas()throws FileNotFoundException, IOException,ClassNotFoundException{
         FileInputStream ficheiro = new FileInputStream("motoristaData.ser");
@@ -218,6 +305,46 @@ public class UMeR
             o = it.next();
             c = Utilizador.lerFicheiro(o);
             clientes.put(c.getEmail(),c);
+        }
+    }
+    
+    public void lerViaturas()throws FileNotFoundException, IOException,ClassNotFoundException{
+        FileInputStream ficheiro = new FileInputStream("viaturaData.ser");
+        ObjectInputStream is = new ObjectInputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        data = (ArrayList<Object>)is.readObject();
+        
+        is.close();
+        ficheiro.close();
+        
+        Object o = null;
+        Viatura v = null;
+        Iterator<Object> it = data.iterator();
+        while(it.hasNext()){
+            o = it.next();
+            v = Viatura.lerFicheiro(o);
+            viaturas.put(v.getIdentificacao(),v);
+        }
+    }
+    
+    public void lerViagens()throws FileNotFoundException, IOException,ClassNotFoundException{
+        FileInputStream ficheiro = new FileInputStream("viagemData.ser");
+        ObjectInputStream is = new ObjectInputStream(ficheiro);
+        ArrayList<Object> data = new ArrayList<Object>();
+        
+        data = (ArrayList<Object>)is.readObject();
+        
+        is.close();
+        ficheiro.close();
+        
+        Object o = null;
+        Viagem v= null;
+        Iterator<Object> it = data.iterator();
+        while(it.hasNext()){
+            o = it.next();
+            v = Viagem.lerFicheiro(o);
+            viagens.put(v.getIdentificacao(),v);
         }
     }
 }
