@@ -24,10 +24,8 @@ public class UMeR
     }
     
     //true-> sucesso false->já existe cliente com este email na lista
-    public boolean adicionaCliente(String email, String nome, String morada, Date nascimento, String password, int x, int y){
+    public boolean adicionaCliente(String email, String nome, String morada, Date nascimento, String password, Posicao p){
         boolean resultado;
-        
-        Posicao p = new Posicao(x,y);
         if(!(resultado = clientes.containsKey(email))){
             Utilizador cliente = new Utilizador(email,nome,password,morada,nascimento,p);
             clientes.put(email,cliente);
@@ -45,10 +43,9 @@ public class UMeR
         return cliente;
     }
     
-    public boolean adicionaMotorista(String email, String nome, String morada, Date nascimento, String password, int x, int y){
+    public boolean adicionaMotorista(String email, String nome, String morada, Date nascimento, String password,Posicao p){
         boolean resultado;
-        
-        Posicao p = new Posicao(x,y);
+      
         if(!(resultado = motoristas.containsKey(email))){
             Motorista motorista = new Motorista(email,nome,password,morada,nascimento,p);
             motoristas.put(email,motorista);

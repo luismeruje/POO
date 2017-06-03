@@ -1,14 +1,20 @@
 #BlueJ class context
 comment0.params=
 comment0.target=UMeR()
-comment1.params=email\ nome\ morada\ nascimento\ password\ x\ y
-comment1.target=boolean\ adicionaCliente(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.util.Date,\ java.lang.String,\ int,\ int)
+comment1.params=email\ nome\ morada\ nascimento\ password\ p
+comment1.target=boolean\ adicionaCliente(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.util.Date,\ java.lang.String,\ Posicao)
 comment2.params=email\ password
 comment2.target=Utilizador\ getCliente(java.lang.String,\ java.lang.String)
-comment3.params=email\ nome\ morada\ nascimento\ password\ x\ y
-comment3.target=boolean\ adicionaMotorista(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.util.Date,\ java.lang.String,\ int,\ int)
+comment3.params=email\ nome\ morada\ nascimento\ password\ p
+comment3.target=boolean\ adicionaMotorista(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.util.Date,\ java.lang.String,\ Posicao)
 comment4.params=email\ password
 comment4.target=Motorista\ getMotorista(java.lang.String,\ java.lang.String)
-comment5.params=
-comment5.target=boolean\ escreverFicheiro()
-numComments=6
+comment5.params=v
+comment5.target=Viatura\ addViatura(Viatura)
+comment6.params=codigo
+comment6.target=Viatura\ getViatura(int)
+comment7.params=p
+comment7.target=Viatura\ getViaturaMaisProx(Posicao)
+comment8.params=
+comment8.target=boolean\ escreverFicheiro()
+numComments=9

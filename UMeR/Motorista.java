@@ -19,15 +19,18 @@ public class Motorista extends Utilizador
     private boolean disponivel;
     private int kms;
     private int nrViagensRealizadas;
+    private Viatura viaturaEmUso;
     //WARNING: só deixar pôr-se disponível se tiver algum carro adicionado.
     //WARNING: quando não tiver nenhum carro devolve uma viatura "simbólica" de código -1
     public Motorista(){
-    	super();
-    	pontuacaoHorario = -1;
+        super();
+        pontuacaoHorario = -1;
         classificacao = -1;
         disponivel = false;
         kms = -1;
         nrViagensRealizadas = -1;
+        viaturas = new ArrayList<Viatura>();
+        viaturaEmUso = null;
     }
     public Motorista(String email, String nome, String pass, String morada, Date nascimento, Posicao posicao){
         super(email,nome,pass,morada,nascimento,posicao);
@@ -37,6 +40,7 @@ public class Motorista extends Utilizador
         disponivel = false;
         kms = 0;
         nrViagensRealizadas = 0;
+        viaturaEmUso = null;
     }
     public Motorista(Motorista m){
         super(m.getEmail(),m.getNome(),m.getPassword(),m.getMorada(),m.getNascimento(),m.getPosicao());
@@ -50,17 +54,27 @@ public class Motorista extends Utilizador
     
     //TODO:: throws ViaturaInexistenteException.
     public Viatura getViatura(int cod)throws ViaturaNaoDisponivelException{
-    	Iterator<Viatura> it = viaturas.iterator();
-    	Viatura v;
-    	while(it.hasNext()){
-    		v = it.next();
-    		if (v.getCodigo() == cod) return v;
-    	}
-    	throw new ViaturaNaoDisponivelException("Codigo da viatura não pertence ao motorista.");
+        Iterator<Viatura> it = viaturas.iterator();
+        Viatura v;
+        while(it.hasNext()){
+            v = it.next();
+            if (v.getCodigo() == cod) return v;
+        }
+        throw new ViaturaNaoDisponivelException("ERRO: Codigo da viatura não pertence ao motorista.");
     }
+    
     public List<Viatura> getViaturas(){
-    	return new ArrayList<Viatura>(this.viaturas);
+        return new ArrayList<Viatura>(this.viaturas);
     }
+    
+    //TODO: passar a clone e meter métodos para alterarkms de viatura e outros, como viagem..
+    public Viatura getViaturaEmUso()throws ViaturaNaoDisponivelException{
+        if(viaturaEmUso != null){
+            return viaturaEmUso;
+        }
+        throw new ViaturaNaoDisponivelException("ERRO: Não existe nenhuma viatura selecionada.");
+    }
+    
     public int getPontuacaoHorario(){
         return pontuacaoHorario;
     }
@@ -73,10 +87,10 @@ public class Motorista extends Utilizador
         return disponivel;
     }
     public void setDisponibilidade(boolean disp){
-    	this.disponivel = disp;
+        this.disponivel = disp;
     }
     public void setViatura(Viatura v){
-    	viaturas.add(v);
+        viaturas.add(v);
     }
     //TODO: kms deve incluir também deslocações do taxi até ao cliente?
     //TODO: clientes pagam a deslocação do táxi até eles?
@@ -91,6 +105,10 @@ public class Motorista extends Utilizador
     }
     
     public Motorista clone(){
-    	return new Motorista(this);
+        return new Motorista(this);
+    }
+    
+    public void setViaturaEmUso(Viatura v){
+        viaturaEmUso = v;
     }
 }

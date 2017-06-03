@@ -106,7 +106,7 @@ public class Viagem
         return new Viagem(this);
     }
     
-    public String toString(){
+    public String toString2(){
         return ("====Viagem====\n Distancia: " + distancia + ".\n Pontuação: " + pontuacao + ".\n Custo: " + custo + ".\n Tempo: "+ tempo + ".\n Desvio: " + desvio + ".\n");
     }
     

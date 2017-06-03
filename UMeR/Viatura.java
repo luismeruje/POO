@@ -14,10 +14,10 @@ public class Viatura
     
     private Motorista motorista;
     private int codigo;
-    private int kms;
-    private int vMedia;
+    private float kms;
+    private float vMedia;
     private int fiabilidade;
-    private int precoKm;
+    private float precoKm;
     private Posicao posicao;
     private List <Viagem> historico;
     
@@ -33,7 +33,7 @@ public class Viatura
         motorista = new Motorista();
     }
     
-    public Viatura(int vMedia, int fiabilidade, int precoKm, Posicao posicao){
+    public Viatura(float vMedia, int fiabilidade, float precoKm, Posicao posicao){
         this.codigo = totalViaturas;
         totalViaturas++;
         this.kms = 0;
@@ -44,7 +44,7 @@ public class Viatura
         this.historico = new ArrayList<Viagem>();
         this.motorista = new Motorista();
     }
-    public Viatura(int vMedia, int fiabilidade, int precoKm, Posicao posicao, Motorista m){
+    public Viatura(float vMedia, int fiabilidade, float precoKm, Posicao posicao, Motorista m){
         this.codigo = totalViaturas;
         totalViaturas++;
         this.kms = 0;
@@ -70,10 +70,10 @@ public class Viatura
      * Gets e Sets
      */
     public int getCodigo(){return this.codigo;}
-    public int getKms(){return this.kms;}
-    public int getVMedia(){return this.vMedia;}
+    public float getKms(){return this.kms;}
+    public float getVMedia(){return this.vMedia;}
     public int getFiabilidade(){return this.fiabilidade;}
-    public int getPrecoKm(){return this.precoKm;}
+    public float getPrecoKm(){return this.precoKm;}
     public Posicao getPos(){return new Posicao(this.posicao);}
     public List<Viagem> getHistorico(){return new ArrayList<Viagem>(this.historico);}
     public Motorista getMotorista(){return this.motorista.clone();}
@@ -113,12 +113,12 @@ public class Viatura
     	return new Viatura(this);
     }
     
-    public String toString(){
-    	String s = new String("====Viatura====\nCodigo:" + this.codigo
-    						  + "\nTotal de quilómetros da viatura:" + this.kms
-    						  + "\nPreço por quilómetro:" + this.precoKm
-    						  + "\nPosição:" +  this.posicao.toString()
-    						  + "\nFiabilidade" + this.fiabilidade + "\n");
+    public String toString2(){
+    	String s = new String("Codigo: " + this.codigo
+    						  + "\nTotal de quilómetros da viatura: " + this.kms
+    						  + "\nPreço por quilómetro: " + this.precoKm
+    						  + "\nPosição:"  +  this.posicao.toString()
+    						  + "\nFiabilidade: " + this.fiabilidade + "\n");
     	return s;
     }
     
